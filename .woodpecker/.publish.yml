@@ -12,7 +12,7 @@ pipeline:
       status: [ success ]
     image: opensuse/tumbleweed:latest
     commands:
-      - zypper install --non-interactive cargo
+      - zypper --non-interactive install cargo
       - echo "Starting build"
       - cargo build --release --all-features
       - echo "Finished build"

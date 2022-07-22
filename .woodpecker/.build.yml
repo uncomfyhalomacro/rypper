@@ -27,7 +27,7 @@ pipeline:
       status: [ success ]
     image: opensuse/tumbleweed:latest
     commands:
-      - zypper --non-interactive install cargo
+      - zypper --non-interactive install cargo-audit
       - echo "Starting audit"
       - cargo audit
       - echo "Finished auditing"

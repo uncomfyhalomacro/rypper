@@ -1,0 +1,14 @@
+[package]
+name = "rypper"
+version = "0.1.0"
+edition = "2021"
+authors = [ "Soc Virnyl Estela <socvirnyl.estela@gmail.com" ]
+description = "An alternative package manager for openSUSE"
+homepage = "https://codeberg.org/uncomfyhalomacro/rypper"
+repository = "https://codeberg.org/uncomfyhalomacro/rypper"
+license = "MIT OR Apache-2.0"
+keywords = [ "package-manager" "opensuse" ]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

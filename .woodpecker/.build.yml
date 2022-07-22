@@ -1,7 +1,6 @@
 matrix:
   platform:
     - linux/amd64
-    - linux/386
 
 platform: ${platform}
 

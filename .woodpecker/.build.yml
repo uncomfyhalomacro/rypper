@@ -1,0 +1,39 @@
+matrix:
+  platform:
+    - linux/amd64
+    - linux/arm64
+
+platform: ${platform}
+
+pipeline:
+  build:
+    when:
+      event: [push, tag]
+      branch: main
+      status: [ success ]
+    image: registry.opensuse.org/devel/bci/tumbleweed/containerfile/opensuse/389-ds:latest
+    commands:
+      - echo "Starting build"
+      - cargo build --release --all-features
+      - echo "Finished build"
+  audit:
+    when:
+      event: [push, tag]
+      branch: main
+      status: [ success ]
+    image: registry.opensuse.org/devel/bci/tumbleweed/containerfile/opensuse/389-ds:latest
+    commands:
+      - echo "Starting audit"
+      - cargo audit
+      - echo "Finished auditing"
+  test:
+    when:
+      event: [push, tag]
+      branch: main
+      status: [ success ]
+    image: registry.opensuse.org/devel/bci/tumbleweed/containerfile/opensuse/389-ds:latest
+    commands:
+      - echo "Starting tests"
+      - cargo test --release --all-features
+      - echo "Finished tests"
+

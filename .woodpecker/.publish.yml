@@ -8,7 +8,6 @@ pipeline:
   build:
     when:
       event: [tag, deployment]
-      branch: main
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install cargo
@@ -20,3 +19,5 @@ pipeline:
 
 depends_on:
   - build
+
+branches: [ main ]

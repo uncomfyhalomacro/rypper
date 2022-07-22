@@ -13,7 +13,6 @@ pipeline:
     when:
       event: [push, tag]
       branch: main
-      status: [ success ]
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install cargo
@@ -24,7 +23,6 @@ pipeline:
     when:
       event: [push, tag]
       branch: main
-      status: [ success ]
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install cargo cargo-audit
@@ -35,7 +33,6 @@ pipeline:
     when:
       event: [push, tag]
       branch: main
-      status: [ success ]
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install cargo
@@ -43,3 +40,4 @@ pipeline:
       - cargo test --release --all-features
       - echo "Finished tests"
 
+runs_on: [ success, failure ]

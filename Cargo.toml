@@ -7,7 +7,7 @@ description = "An alternative package manager for openSUSE"
 homepage = "https://codeberg.org/uncomfyhalomacro/rypper"
 repository = "https://codeberg.org/uncomfyhalomacro/rypper"
 license = "MIT OR Apache-2.0"
-keywords = [ "package-manager" "opensuse" ]
+keywords = [ "package-manager", "opensuse" ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

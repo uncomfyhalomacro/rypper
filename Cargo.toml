@@ -12,3 +12,20 @@ keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+rpm-rs = { git = "https://github.com/rpm-rs/rpm-rs/", version = "0.8.1" }
+rypper-cli = { version = "0.1.0", path = "rypper-cli" }
+rypper-core = { version = "0.1.0", path = "rypper-core" }
+rypper-utils = { version = "0.1.0", path = "rypper-utils" }
+
+[workspace]
+members = [
+  "rypper-core",
+  "rypper-cli",
+  "rypper-utils"
+]
+
+[profile.release]
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Reduce number of codegen units to increase optimizations.
+panic = 'abort'     # Abort on panic
+strip = true        # Strip symbols from binary*

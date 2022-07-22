@@ -10,8 +10,9 @@ pipeline:
       event: [tag, deployment]
       branch: main
       status: [ success ]
-    image: registry.opensuse.org/devel/bci/tumbleweed/containerfile/opensuse/389-ds:latest
+    image: opensuse/tumbleweed:latest
     commands:
+      - zypper -n cargo
       - echo "Starting build"
       - cargo build --release --all-features
       - echo "Finished build"

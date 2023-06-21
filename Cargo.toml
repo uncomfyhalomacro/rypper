@@ -12,7 +12,7 @@ keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rpm-rs = { git = "https://github.com/rpm-rs/rpm-rs/", version = "0.8.1" }
+rpm = "0.11.0"
 rypper-cli = { version = "0.1.0", path = "rypper-cli" }
 rypper-core = { version = "0.1.0", path = "rypper-core" }
 rypper-utils = { version = "0.1.0", path = "rypper-utils" }
@@ -21,7 +21,8 @@ rypper-utils = { version = "0.1.0", path = "rypper-utils" }
 members = [
   "rypper-core",
   "rypper-cli",
-  "rypper-utils"
+  "rypper-utils",
+  "rypper-reader"
 ]
 
 [profile.release]

@@ -14,30 +14,12 @@ pipeline:
       - echo "Starting build"
       - cargo build --release --all-features
       - echo "Finished build"
-  # audit:
-  #   when:
-  #     event: [push, tag]
-  #   image: opensuse/tumbleweed:latest
-  #   commands:
-  #     - zypper --non-interactive install gcc gcc-c++ cargo-audit libnettle-devel libzstd-devel zstd
-  #     - echo "Starting audit"
-  #     - cargo audit
-  #     - echo "Finished auditing"
-  # test:
-  #   when:
-  #     event: [push, tag]
-  #   image: opensuse/tumbleweed:latest
-  #   commands:
-  #     - zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel zstd
-  #     - echo "Starting tests"
-  #     - cargo test --release --all-features
-  #     - echo "Finished tests"
   docs:
     when:
       event: [push, tag]
     image: opensuse/tumbleweed:latest
     commands:
-      - zypper --non-interactive install mdbook
+      - zypper --non-interactive install mdbook git
       - echo "Readying mdbook"
       - cd docs
       - mdbook build
@@ -49,6 +31,17 @@ pipeline:
       - git commit -m "update book for commit ${CI_COMMIT_SHA}"
       - git push --force -u origin pages
     secrets: [ rypper_access_token ]
+  publish:
+    when:
+      event: [tag, deployment]
+    image: opensuse/tumbleweed:latest
+    commands:
+      - zypper --non-interactive install cargo
+      - echo "Starting build"
+      - cargo build --release --all-features
+      - echo "Finished build"
+      - cargo publish --token "$CARGO_REGISTRY_TOKEN"
+    secrets: [ cargo_registry_token ]
 
 runs_on: [ success, failure ]
 branches: [ main ]

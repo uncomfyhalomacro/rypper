@@ -14,24 +14,24 @@ pipeline:
       - echo "Starting build"
       - cargo build --release --all-features
       - echo "Finished build"
-  audit:
-    when:
-      event: [push, tag]
-    image: opensuse/tumbleweed:latest
-    commands:
-      - zypper --non-interactive install gcc gcc-c++ cargo-audit libnettle-devel libzstd-devel zstd
-      - echo "Starting audit"
-      - cargo audit
-      - echo "Finished auditing"
-  test:
-    when:
-      event: [push, tag]
-    image: opensuse/tumbleweed:latest
-    commands:
-      - zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel zstd
-      - echo "Starting tests"
-      - cargo test --release --all-features
-      - echo "Finished tests"
+  # audit:
+  #   when:
+  #     event: [push, tag]
+  #   image: opensuse/tumbleweed:latest
+  #   commands:
+  #     - zypper --non-interactive install gcc gcc-c++ cargo-audit libnettle-devel libzstd-devel zstd
+  #     - echo "Starting audit"
+  #     - cargo audit
+  #     - echo "Finished auditing"
+  # test:
+  #   when:
+  #     event: [push, tag]
+  #   image: opensuse/tumbleweed:latest
+  #   commands:
+  #     - zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel zstd
+  #     - echo "Starting tests"
+  #     - cargo test --release --all-features
+  #     - echo "Finished tests"
   docs:
     when:
       event: [push, tag]

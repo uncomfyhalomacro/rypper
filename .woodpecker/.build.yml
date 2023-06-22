@@ -32,6 +32,23 @@ pipeline:
       - echo "Starting tests"
       - cargo test --release --all-features
       - echo "Finished tests"
+  docs:
+    when:
+      event: [push, tag]
+    image: opensuse/tumbleweed:latest
+    commands:
+      - zypper --non-interactive install mdbook
+      - echo "Readying mdbook"
+      - cd docs
+      - mdbook build
+      - cd book
+      - git init
+      - git remote add origin "https://${CI_REPO_OWNER}:${RYPPER_ACCESS_TOKEN}/codeberg.org/${CI_REPO_NAME}.git"
+      - git switch --orphan pages
+      - git add -A
+      - git commit -m "update book for commit ${CI_COMMIT_SHA}"
+      - git push --force -u origin pages
+    secrets: [ rypper_access_token ]
 
 runs_on: [ success, failure ]
 branches: [ main ]

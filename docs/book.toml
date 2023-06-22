@@ -1,0 +1,6 @@
+[book]
+authors = ["Soc Virnyl S. Estela"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Rypper Documentation"

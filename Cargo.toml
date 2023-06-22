@@ -3,6 +3,7 @@ name = "rypper"
 version = "0.1.0-alpha.4"
 edition = "2021"
 authors = [ "Soc Virnyl Estela <socvirnyl.estela@gmail.com>" ]
+documentation = "https://uncomfyhalomacro.codeberg.page/rypper"
 description = "An alternative package manager for openSUSE"
 homepage = "https://codeberg.org/uncomfyhalomacro/rypper"
 repository = "https://codeberg.org/uncomfyhalomacro/rypper"

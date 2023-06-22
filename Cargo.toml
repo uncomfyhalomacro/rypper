@@ -13,9 +13,9 @@ keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
 
 [dependencies]
 rpm = "0.11.0"
-rypper-cli = { version = "0.1.0", path = "rypper-cli" }
-rypper-core = { version = "0.1.0", path = "rypper-core" }
-rypper-utils = { version = "0.1.0", path = "rypper-utils" }
+rypper-cli = {   version = "0.1.0-alpha.4", path = "rypper-cli" }
+rypper-core = {  version = "0.1.0-alpha.4", path = "rypper-core" }
+rypper-utils = { version = "0.1.0-alpha.4", path = "rypper-utils" }
 
 [workspace]
 members = [

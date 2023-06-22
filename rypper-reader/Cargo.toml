@@ -14,4 +14,4 @@ keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
 [dependencies]
 quick-xml = "0.29.0"
 rust-ini = "0.19.0"
-sequoia-openpgp = "*"
+sequoia-openpgp = "1.16.0"

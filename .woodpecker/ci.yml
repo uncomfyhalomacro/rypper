@@ -28,7 +28,7 @@ pipeline:
       - git init
       - git config --global user.name "$CI_REPO_OWNER"
       - git config --global user.email "$$MAIL"
-      - git remote add origin "https://${CI_REPO_OWNER}:$${RYPPER_ACCESS_TOKEN}/codeberg.org/${CI_REPO_NAME}.git"
+      - git remote add origin "https://${CI_REPO_OWNER}:$${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO_NAME}.git"
       - git switch --orphan pages
       - git add -A
       - git commit -m "update book for commit ${CI_COMMIT_SHA}"

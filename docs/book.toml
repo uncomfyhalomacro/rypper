@@ -15,7 +15,7 @@ assets_version = "0.2.0" # DO NOT EDIT: Managed by `mdbook-catppuccin install`
 [output.html]
 default-theme = "latte"
 preferred-dark-theme = "mocha"
-git-repository-url = "https://uncomfyhalomacro.codeberg.page/rypper"
+git-repository-url = "https://codeberg.org/uncomfyhalomacro/rypper"
 git-repository-icon = "fa-github"
 edit-url-template = "https://codeberg.org/uncomfyhalomacro/rypper/src/branch/main/docs"
 additional-css = ["./theme/catppuccin.css", "./theme/catppuccin-highlight.css"]

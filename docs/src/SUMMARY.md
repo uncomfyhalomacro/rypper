@@ -1,8 +1,16 @@
 # Summary
 
-[Introduction](README.md)
+[README](README.md)
 
-- [Chapter 1](./chapter_1.md)
+[Introduction to Rypper](INTRODUCTION.md)
 
-[Architecture](ARCHITECTURE.md)
+- [Installation](INSTALLATION.md)
+- [Configuration](CONFIGURATION.md)
+- [DOs and DONTs](DOS_AND_DONTS.md)
+
+# For Developers
+  - [FAQ](FAQ.md)
+  - [Architecture](ARCHITECTURE.md)
+  - [Developer Guide](DEVGUIDE.md)
+  - [Library Documentations](LIBRARIES.md)
 

@@ -29,5 +29,7 @@ pipeline:
       - zypper --non-interactive install just
       - just publish
 
+branches: 
+  - include: [ main, develop ]
+  - exclude: [ pages, docs, feature/* ]
 runs_on: [ success, failure ]
-branches: [ main ]

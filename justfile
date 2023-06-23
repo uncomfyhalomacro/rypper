@@ -8,7 +8,8 @@ docs: get-deps-book
   set -euxo pipefail
   mdbook build docs
   git config --global init.defaultBranch main
-  git config --global user.name "${CI_REPO_OWNER}" user.email "${MAIL}"
+  git config --global user.name "${CI_REPO_OWNER}" 
+  git config --global user.email "${MAIL}"
   cd docs/book
   git init
   git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"

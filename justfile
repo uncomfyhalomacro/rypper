@@ -6,8 +6,9 @@ test:
 docs: get-deps-book
 	echo "Building docs..."
 	mdbook build docs
-	echo "Entering docs directory..."
-	cd docs/book
+	echo "Docs built."
+	echo "Entering book directory..."
+	cd book
 	git init
 	git config --global user.name "${CI_REPO_OWNER}" user.email "${MAIL}"
 	git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"
@@ -15,8 +16,7 @@ docs: get-deps-book
 	git add -A
 	git commit -m "update book for commit ${CI_COMMIT_SHA}"
 	git push --force -u origin pages
-	echo "Docs built. Leaving docs directory"
-	cd ../../
+	cd ../
 
 build-release:
 	echo "Building rypper..."

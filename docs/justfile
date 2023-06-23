@@ -1,6 +1,6 @@
 #!/usr/bin/just
 
-docs: get-deps-book
+build: get-deps-book
 	mdbook build
 	echo "Docs built."
 	echo "Entering book directory..."

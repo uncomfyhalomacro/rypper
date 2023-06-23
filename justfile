@@ -3,7 +3,7 @@
 test:
 	cargo test --all-features
 
-docs: get-deps-book
+docs:
 	just docs/build
 
 build-release:
@@ -16,9 +16,6 @@ install: get-deps
 
 publish:
 	cargo publish --token "${CARGO_REGISTRY_TOKEN}"
-
-get-deps-book:
-	zypper --non-interactive install mdbook git
 
 get-deps:
 	zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel

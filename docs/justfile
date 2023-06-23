@@ -12,3 +12,7 @@ build: get-deps-book
 	git add -A && \
 	git commit -m "update book for commit ${CI_COMMIT_SHA}" && \
 	git push --force -u origin pages)
+
+get-deps-book:
+	zypper --non-interactive install mdbook git
+

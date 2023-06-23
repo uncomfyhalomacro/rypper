@@ -10,40 +10,24 @@ pipeline:
       event: [push, tag]
     image: opensuse/tumbleweed:latest
     commands:
-      - zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel zstd
-      - echo "Starting build"
-      - cargo build --release --all-features
-      - echo "Finished build"
+      - zypper --non-interactive install just
+      - just get-deps build-release
   docs:
     when:
       event: [push, tag]
     image: opensuse/tumbleweed:latest
     secrets: [ rypper_access_token, mail ]
     commands:
-      - zypper --non-interactive install mdbook git
-      - echo "Readying mdbook"
-      - cd docs
-      - mdbook build
-      - cd book
-      - git init
-      - git config --global user.name "$CI_REPO_OWNER"
-      - git config --global user.email "$$MAIL"
-      - git remote add origin "https://$${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"
-      - git switch --orphan pages
-      - git add -A
-      - git commit -m "update book for commit ${CI_COMMIT_SHA}"
-      - git push --force -u origin pages
+      - zypper --non-interactive install just
+      - just docs
   publish:
     when:
       event: [tag, deployment]
     image: opensuse/tumbleweed:latest
     secrets: [ cargo_registry_token ]
     commands:
-      - zypper --non-interactive install cargo
-      - echo "Starting build"
-      - cargo build --release --all-features
-      - echo "Finished build"
-      - cargo publish --token "$CARGO_REGISTRY_TOKEN"
+      - zypper --non-interactive install just
+      - just publish
 
 runs_on: [ success, failure ]
 branches: [ main ]

@@ -6,8 +6,8 @@ test:
 docs: get-deps-book
   #!/usr/bin/env bash
   set -euxo pipefail
-  mdbook build docs -d book
-  cd book
+  mdbook build docs
+  cd docs/book
   git init
   git config --global user.name "${CI_REPO_OWNER}" user.email "${MAIL}"
   git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"

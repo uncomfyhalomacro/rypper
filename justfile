@@ -5,10 +5,10 @@ test:
 
 docs: get-deps-book
 	echo "Building docs..."
-	mdbook build docs -d book
+	mdbook build docs
 	echo "Docs built."
 	echo "Entering book directory..."
-	cd book
+	cd docs/book
 	git init
 	git config --global user.name "${CI_REPO_OWNER}" user.email "${MAIL}"
 	git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"

@@ -4,7 +4,7 @@ test:
 	cargo test --all-features
 
 docs: get-deps-book
- 	#!/usr/bin/bash
+    #!/usr/bin/bash
 	mdbook build docs -d book
 	echo "Docs built."
 	echo "Entering book directory..."

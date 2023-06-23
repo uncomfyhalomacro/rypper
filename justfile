@@ -33,7 +33,7 @@ get-deps-book:
 	zypper --non-interactive install mdbook git
 
 get-deps:
-	zypper --non-interactive install gcc gcc-c++ cargo libnettle-dev libzstd-devel
+	zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel
 
 # Ignore install section
 do-all: get-deps build-release test docs publish

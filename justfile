@@ -5,7 +5,7 @@ test:
 
 docs: get-deps-book
 	echo "Building docs..."
-	mdbook build docs
+	mdbook build docs -d book
 	echo "Docs built."
 	echo "Entering book directory..."
 	cd book

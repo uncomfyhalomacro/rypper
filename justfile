@@ -5,6 +5,7 @@ test:
 
 docs: get-deps-book
     #!/usr/bin/bash
+	set -euxo pipefail
 	mdbook build docs -d book
 	echo "Docs built."
 	echo "Entering book directory..."

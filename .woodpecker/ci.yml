@@ -30,6 +30,6 @@ pipeline:
       - just publish
 
 branches: 
-  - include: [ main, develop ]
-  - exclude: [ pages, docs, feature/* ]
+  include: [ main, develop ]
+  exclude: [ pages, docs, feature/* ]
 runs_on: [ success, failure ]

@@ -16,7 +16,6 @@ docs: get-deps-book
   git init 
   git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"
   git switch --orphan pages
-  git rm --cached -r .
   if [ -n "${CI_COMMIT_TAG:-}" ]; then
     cp -rfv ../${CI_REPO_NAME}/docs/book stable
     git add -A

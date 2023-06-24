@@ -10,9 +10,7 @@ The intent of the project is to:
 
 ## Why do I want `rypper`?
 
-You will want `rypper` because currently, `zypper` is bottlenecked by no plans to add modern features
-plus old unmaintained code. Yes, there are updates and new commits but see the commit content and their 
-issue tracker and you will see what I mean.
+You will want `rypper` because it's new. It's shiny. It's Rust! 
 
 `rypper` will have features such as parallel downloads and being written in a 
 modern performant language. It also prevents you to do stupid things like running `up` instead of `dup` on a 
@@ -32,3 +30,9 @@ if possible.
 `rypper` will never ever replace `zypper` until there comes an interest.
 
 And lastly, `rypper` is not a drop-in replacement of `zypper`.
+
+## Why are you doing this project?
+
+As a packager myself, I feel like I need to learn more of how package managers work. Therefore, even though
+there exists package managers that may be suitable for this use case e.g. `dnf`, I may as well write
+one and learn.

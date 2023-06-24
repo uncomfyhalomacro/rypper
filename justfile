@@ -11,7 +11,7 @@ docs: get-deps-book
   git config --global user.name "${CI_REPO_OWNER}" 
   git config --global user.email "${MAIL}"
   cd ../
-  git clone "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git" docs
+  git clone -b pages "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git" docs
   cd docs
   if [ -n "${CI_COMMIT_TAG}" ]; then
     rm -rfv stable/
@@ -21,9 +21,6 @@ docs: get-deps-book
   fi
   rm -rfv dev/
   cp -rfv ../${CI_REPO_NAME}/docs/book dev
-  git init
-  git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"
-  git switch --orphan pages
   git add -A
   git commit -m "update book for commit ${CI_COMMIT_SHA}"
   git push --force -u origin pages

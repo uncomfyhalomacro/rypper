@@ -15,6 +15,6 @@ For contributing, check out the [developer guide](https://uncomfyhalomacro.codeb
 
 [mdbook]: https://github.com/rust-lang/mdBook
 [ci-status-link]: https://ci.codeberg.org/uncomfyhalomacro/rypper
-[codeberg-page]: https://uncomfyhalomacro.codeberg.page/rypper/stable
+[codeberg-page]: https://uncomfyhalomacro.codeberg.page/rypper
 [docsrs]: https://docs.rs/rypper/latest/rypper
 [crates]: https://crates.io/crates/rypper

@@ -5,21 +5,6 @@ matrix:
 platform: ${platform}
 
 pipeline:
-  build:
-    when:
-      event: [push, tag]
-    image: opensuse/tumbleweed:latest
-    commands:
-      - zypper --non-interactive install just
-      - just get-deps build-release
-  docs:
-    when:
-      event: [push, tag]
-    image: opensuse/tumbleweed:latest
-    secrets: [ rypper_access_token, mail ]
-    commands:
-      - zypper --non-interactive install just
-      - just docs
   publish:
     when:
       event: [tag, deployment]
@@ -28,7 +13,6 @@ pipeline:
     commands:
       - zypper --non-interactive install just
       - just publish
-
 branches: 
   include: [ main, develop ]
   exclude: [ pages, docs, feature/* ]

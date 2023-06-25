@@ -1,0 +1,19 @@
+matrix:
+  platform:
+    - linux/amd64
+
+platform: ${platform}
+
+pipeline:
+  docs:
+    when:
+      event: [push, tag]
+    image: opensuse/tumbleweed:latest
+    secrets: [ rypper_access_token, mail ]
+    commands:
+      - zypper --non-interactive install just
+      - just docs
+branches: 
+  include: [ main, develop ]
+  exclude: [ pages, docs, feature/* ]
+runs_on: [ success, failure ]

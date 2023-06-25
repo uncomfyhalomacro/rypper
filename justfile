@@ -33,6 +33,9 @@ get-deps:
 get-deps-book:
   zypper --non-interactive install mdbook git
 
+build:
+  cargo build
+
 build-release:
   cargo build --release --all-features
 

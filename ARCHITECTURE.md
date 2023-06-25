@@ -1,4 +1,4 @@
-# ARCHITECTURE
+# Architecture
 
 This document details different components of the code base. The intention is to provide
 a simple to explain but a high-level description of the projects goals and plans

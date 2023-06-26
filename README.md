@@ -5,6 +5,12 @@
 
 A package manager for openSUSE written in Rust.
 
+It aims to:
+
+* improve the user experience of managing and installing packages on opensuse.
+* improve download and update performance.
+* use [Rust](https://rust-lang.org) over other languages so that it has stricter correctness guarantees as well as performance.
+
 > **WARNING**. DOCS DO NOT REFLECT ACTUAL FUNCTIONALITY **YET**.
 
 For more info, see [Rypper Documentation][codeberg-page] for the full documentation.

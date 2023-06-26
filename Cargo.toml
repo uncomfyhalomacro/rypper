@@ -32,8 +32,6 @@ codegen-units = 1   # Reduce number of codegen units to increase optimizations.
 panic = 'abort'     # Abort on panic
 strip = false       # Strip symbols from binary.
 
-[profile.stripped-release]
-lto = true
-codegen-units = 1
-panic = "abort"
+[profile.release-stripped]
+inherits = "release"
 strip = true

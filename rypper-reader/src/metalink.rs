@@ -26,7 +26,7 @@ pub struct FileData {
     mirrors: Location,
 }
 
-struct Location {
+pub struct Location {
     // I may use https://github.com/sifton/isocountry-rs/blob/master/src/lib.rs for this but eh not now
     location: String,
     priority: u8,
@@ -46,3 +46,15 @@ impl MetaLinkData {}
 impl Location {}
 impl FileData {}
 impl Publisher {}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,8 +16,7 @@ You will want `rypper` because it's new. It's shiny. It's Rust!
 modern performant language. It also prevents you to do stupid things like running `up` instead of `dup` on a 
 Tumbleweed system by default. 
 
-`rypper`, unlike `zypper`, will avoid old stupid behavior that `zypper` does and
-selects the best mirrors for you as much as possible giving you the fastest (parallel) downloads whenever 
+`rypper` selects the best mirrors for you as much as possible giving you the fastest (parallel) downloads whenever 
 possible.
 
 `rypper` will also save the known best list of mirrors for you as much as possible and updates it on intervals

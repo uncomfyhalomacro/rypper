@@ -1,4 +1,11 @@
-# rypper
+```
+                                                 ____                                   
+                                                |  _ \  _   _  _ __   _ __    ___  _ __ 
+                                                | |_) || | | || '_ \ | '_ \  / _ \| '__|
+                                                |  _ < | |_| || |_) || |_) ||  __/| |   
+                                                |_| \_\ \__, || .__/ | .__/  \___||_|   
+                                                        |___/ |_|    |_|               
+``` 
 
 [![CI Status](https://ci.codeberg.org/api/badges/uncomfyhalomacro/rypper/status.svg)][ci-status-link]
 [![License](https://img.shields.io/crates/l/rypper)][crates]

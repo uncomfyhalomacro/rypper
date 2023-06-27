@@ -11,6 +11,10 @@ keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[lib]]
+name = "rypper-utils"
+path = "src/lib.rs"
+
 [dependencies]
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1", features = ["full"] }

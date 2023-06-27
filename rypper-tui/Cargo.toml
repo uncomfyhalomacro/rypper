@@ -10,5 +10,8 @@ license = "MPL-2.0"
 keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[lib]]
+name = "rypper-tui"
+path = "src/lib.rs"
 
 [dependencies]

@@ -45,5 +45,8 @@ install: get-deps build-release
 publish:
   cargo publish --token "${CARGO_REGISTRY_TOKEN}"
 
+format:
+  cargo fmt
+
 # Ignore install section
 do-all: get-deps build-release test docs publish

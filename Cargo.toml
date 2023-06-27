@@ -1,32 +1,20 @@
-[package]
-name = "rypper"
-version = "0.1.0-alpha.4"
-edition = "2021"
-authors = [ "Soc Virnyl Estela <socvirnyl.estela@gmail.com>" ]
-documentation = "https://uncomfyhalomacro.codeberg.page/rypper"
-description = "An alternative package manager for openSUSE"
-homepage = "https://codeberg.org/uncomfyhalomacro/rypper"
-repository = "https://codeberg.org/uncomfyhalomacro/rypper"
-license = "MPL-2.0"
-keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [workspace]
 members = [
-  "rypper-core",
+  "rypper",
   "rypper-cli",
-  "rypper-utils",
+  "rypper-core",
   "rypper-reader",
-  "rypper-tui"
+  "rypper-tui",
+  "rypper-utils"
 ]
 
 default-members = [
-  "rypper-core",
+  "rypper",
   "rypper-cli",
-  "rypper-utils",
+  "rypper-core",
   "rypper-reader",
-  "rypper-tui"
+  "rypper-tui",
+  "rypper-utils"
 ]
 
 [profile.release]

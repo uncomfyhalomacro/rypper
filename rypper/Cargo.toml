@@ -31,5 +31,5 @@ path = "../rypper-utils"
 
 [dependencies.rypper-tui]
 version = "0.1.0-alpha.4"
-path = "rypper-tui"
+path = "../rypper-tui"
 

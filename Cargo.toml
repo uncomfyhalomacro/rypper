@@ -12,26 +12,31 @@ keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
-rpm = "0.11.0"
-rypper-cli = {   version = "0.1.0-alpha.4", path = "rypper-cli" }
-rypper-core = {  version = "0.1.0-alpha.4", path = "rypper-core" }
-rypper-utils = { version = "0.1.0-alpha.4", path = "rypper-utils" }
-
 [workspace]
 members = [
   "rypper-core",
   "rypper-cli",
   "rypper-utils",
-  "rypper-reader"
+  "rypper-reader",
+  "rypper-tui"
+]
+
+default-members = [
+  "rypper-core",
+  "rypper-cli",
+  "rypper-utils",
+  "rypper-reader",
+  "rypper-tui"
 ]
 
 [profile.release]
-lto = true          # Enable Link Time Optimization
+lto = true          # Enable Link Time Optimization.
+debug = true        # Include debug symbols. If you are going to complain for big binary sizes, there is a release-stripped option :P
 codegen-units = 8   # Default. Little gains if set to 1 so why bother?
-panic = 'abort'     # Abort on panic
+panic = 'abort'     # Abort on panic.
 strip = false       # Strip symbols from binary.
 
 [profile.release-stripped]
 inherits = "release"
 strip = true
+

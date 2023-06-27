@@ -35,7 +35,6 @@ default config for download-opensuse.org-oss and
 dowload-opensuse.org-non-oss
 */
 impl RepoConfig {
-    
     pub fn load_from_file(p: &Path) -> RepoConfig {
         let conf = Ini::load_from_file(p).unwrap();
         let mut properties: &ini::Properties = &ini::Properties::new();
@@ -87,4 +86,3 @@ impl RepoConfig {
     // TODO: Finish this write_config function.
     pub fn _write_config() {}
 }
-

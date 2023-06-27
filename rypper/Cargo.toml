@@ -1,0 +1,31 @@
+[package]
+name = "rypper"
+version = "0.1.0-alpha.4"
+edition = "2021"
+authors = [ "Soc Virnyl Estela <socvirnyl.estela@gmail.com>" ]
+documentation = "https://uncomfyhalomacro.codeberg.page/rypper"
+description = "An alternative package manager for openSUSE"
+homepage = "https://codeberg.org/uncomfyhalomacro/rypper"
+repository = "https://codeberg.org/uncomfyhalomacro/rypper"
+license = "MPL-2.0"
+keywords = [ "package-manager", "opensuse", "zypper", "rpm" ]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# Rypper libraries
+[dependencies.rypper-cli]
+version = "0.1.0-alpha.4"
+path = "../rypper-cli"
+
+[dependencies.rypper-core]
+version = "0.1.0-alpha.4"
+path = "../rypper-core"
+
+[dependencies.rypper-utils]
+version = "0.1.0-alpha.4"
+path = "../rypper-utils"
+
+[dependencies.rypper-tui]
+version = "0.1.0-alpha.4"
+path = "rypper-tui"
+

@@ -10,12 +10,13 @@ docs: get-deps-book
   git config --global init.defaultBranch main
   git config --global user.name "${CI_REPO_OWNER}" 
   git config --global user.email "${MAIL}"
-  cd ../
+  pushd ../
   mkdir -p docs/
   cd docs
   git init 
   git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"
   git switch --orphan pages
+  cp ../${CI_REPO_NAME}/.domains .domains
   if [ -n "${CI_COMMIT_TAG:-}" ]; then
     cp -rfv ../${CI_REPO_NAME}/docs/book/* .
     cp -rfv ../${CI_REPO_NAME}/docs/book stable

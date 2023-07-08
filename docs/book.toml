@@ -18,4 +18,5 @@ preferred-dark-theme = "mocha"
 git-repository-url = "https://codeberg.org/uncomfyhalomacro/rypper"
 git-repository-icon = "fa-github"
 edit-url-template = "https://codeberg.org/uncomfyhalomacro/rypper/src/branch/main/docs"
+site-url="rypper.uncomfyhalomacro.pl"
 additional-css = ["./theme/catppuccin.css", "./theme/catppuccin-highlight.css"]

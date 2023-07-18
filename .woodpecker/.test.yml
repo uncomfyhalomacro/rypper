@@ -1,0 +1,23 @@
+matrix:
+  platform:
+    - linux/amd64
+
+platform: ${platform}
+
+pipeline:
+  test:
+    when:
+      event: [push, tag]
+      branch: 
+        include: [ main, develop ]
+        exclude: [ pages, docs, feature/* ]
+    image: opensuse/tumbleweed:latest
+    commands:
+      - zypper --non-interactive install just
+      - just get-deps test
+      - just test-release
+
+depends_on:
+  - build
+
+runs_on: [ success ]

@@ -37,8 +37,14 @@ get-deps-book:
 build:
   cargo build
 
+test:
+  cargo test
+
 build-release:
   cargo build --release --all-features
+
+test-release:
+  cargo test --release --all-features
 
 install: get-deps build-release
   cargo install --path .

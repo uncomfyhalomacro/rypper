@@ -8,12 +8,12 @@ pipeline:
   build:
     when:
       event: [push, tag]
+      branch: 
+        include: [ main, develop ]
+        exclude: [ pages, docs, feature/* ]
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install just
       - just get-deps build
 
-branches: 
-  include: [ main, develop ]
-  exclude: [ pages, docs, feature/* ]
 runs_on: [ success, failure ]

@@ -8,12 +8,18 @@ pipeline:
   publish:
     when:
       event: [tag, deployment]
+      branch: 
+        include: [ main, develop ]
+        exclude: [ pages, docs, feature/* ]
     image: opensuse/tumbleweed:latest
     secrets: [ cargo_registry_token ]
     commands:
       - zypper --non-interactive install just
       - just publish
-branches: 
-  include: [ main, develop ]
-  exclude: [ pages, docs, feature/* ]
+
+depends_on:
+  - test
+  - release
+  - docs
+
 runs_on: [ success, failure ]

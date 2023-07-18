@@ -8,12 +8,17 @@ pipeline:
   docs:
     when:
       event: [push, tag]
+      branch: 
+        include: [ main, develop ]
+        exclude: [ pages, docs, feature/* ]
     image: opensuse/tumbleweed:latest
     secrets: [ rypper_access_token, mail ]
     commands:
       - zypper --non-interactive install just
       - just docs
-branches: 
-  include: [ main, develop ]
-  exclude: [ pages, docs, feature/* ]
-runs_on: [ success, failure ]
+
+depends_on:
+  - build
+  - test
+
+runs_on: [ success ]

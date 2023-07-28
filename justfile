@@ -33,7 +33,7 @@ get-deps:
     zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel libopenssl-devel clang-devel
 
 get-deps-book:
-    zypper --non-interactive install mdbook git
+    zypper --non-interactive install mdbook git cargo
     mkdir -p mdbook-deps/
     cargo install mdbook-catppuccin --root mdbook-deps
     cargo install mdbook-mermaid --root mdbook-deps

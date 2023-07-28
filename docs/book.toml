@@ -10,6 +10,9 @@ title = "Rypper Documentation"
 [preprocessor.catppuccin]
 assets_version = "0.2.0" # DO NOT EDIT: Managed by `mdbook-catppuccin install`
 
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
 [output]
 
 [output.html]
@@ -20,3 +23,4 @@ git-repository-icon = "fa-github"
 edit-url-template = "https://codeberg.org/uncomfyhalomacro/rypper/src/branch/main/docs"
 site-url="rypper.uncomfyhalomacro.pl"
 additional-css = ["./theme/catppuccin.css", "./theme/catppuccin-highlight.css"]
+additional-js = ["mermaid.min.js", "mermaid-init.js"]

@@ -4,6 +4,26 @@ This document details different components of the code base. The intention is to
 a simple to explain but a high-level description of the projects goals and plans
 to each of these internal mechanisms.
 
+```mermaid
+flowchart TB
+    pkg[rypper] --> op1{install?}
+    pkg[rypper] --> op2{distro-upgrade?}
+    op1 -->|Yes| MIRROR[(Mirror)]
+    op2 -->|Yes| MIRROR
+    op1 -->|No| E[END]
+    op2 -->|No| E[END]
+    MIRROR --> resp{RESPONSE}
+    resp -->|OK| pkg
+    resp -->|ERR| E
+    subgraph "rypper libraries"
+    a1[rypper util] --> s1[rypper core]
+    b1[rypper tui] --> s1
+    c1[rypper cli] --> s1
+    d1[rypper reader] --> s1
+    s1 --> pkg
+    end
+```
+
 ## CLI (rypper-cli)
 
 The `cli` is the frontend for running commands behind the scenes. The goal is to make it

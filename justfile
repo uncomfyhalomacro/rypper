@@ -7,6 +7,10 @@ docs: get-deps-book
   #!/usr/bin/env bash
   set -euxo pipefail
   mdbook build docs
+  PATH="${PATH}:${PWD}/mdbook-deps/bin"
+  export PATH
+  mdbook-catppuccin install docs
+  mdbook-mermaid install docs
   git config --global init.defaultBranch main
   git config --global user.name "${CI_REPO_OWNER}" 
   git config --global user.email "${MAIL}"
@@ -33,6 +37,9 @@ get-deps:
 
 get-deps-book:
   zypper --non-interactive install mdbook git
+  mkdir -p mdbook-deps/
+  cargo install mdbook-catppuccin --root mdbook-deps/
+  cargo install mdbook-mermaid --root mdbook-deps/
 
 build:
   cargo build

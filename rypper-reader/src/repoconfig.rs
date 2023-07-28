@@ -2,7 +2,8 @@ use ini::Ini;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug)]
-// NOTE: Maybe rearrange the struct fields by moving them into categories such as `RepoDescription` and `RepoOptions`.
+// NOTE: Maybe rearrange the struct fields by moving them into categories such as `RepoDescription` and `RepoOptions`. Also use `Option` instead of using empty
+// strings. Remove `Default` after.
 pub struct RepoConfig {
     pub autorefresh: bool,
     pub baseurl: String,
@@ -18,11 +19,11 @@ impl Default for RepoConfig {
     fn default() -> RepoConfig {
         RepoConfig {
             autorefresh: false,
-            enabled: false,
-            name: String::new(),
-            gpgcheck: false,
-            priority: 99_u8,
             baseurl: String::new(),
+            enabled: false,
+            gpgcheck: false,
+            name: String::new(),
+            priority: 99_u8,
             type_md: String::new(),
             path: PathBuf::from("/"),
         }
@@ -30,9 +31,8 @@ impl Default for RepoConfig {
 }
 
 /*
-TODO: Write methods for default for
-default config for download-opensuse.org-oss and
-dowload-opensuse.org-non-oss
+REDO: Refactor to allow `Option`.
+TODO: Write your own ini parser. This crate sucks.
 */
 impl RepoConfig {
     pub fn load_from_file(p: &Path) -> RepoConfig {
@@ -86,3 +86,5 @@ impl RepoConfig {
     // TODO: Finish this write_config function.
     pub fn _write_config() {}
 }
+
+// TODO: either rypper-core or rypper-utils will do the web requests

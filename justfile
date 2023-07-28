@@ -33,9 +33,14 @@ get-deps:
     zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel libopenssl-devel clang-devel
 
 get-deps-book:
+    #!/usr/bin/env bash
     zypper --non-interactive install mdbook git cargo
-    mkdir -p mdbook-deps/
-    cargo install mdbook-catppuccin --root mdbook-deps
+    mkdir -p mdbook-deps/bin
+    git clone "https://github.com/catppuccin/mdBook" mdbook-catppuccin
+    pushd mdbook-catppuccin
+    cargo build --release
+    popd
+    cp -v mdbook-catppuccin/target/release/mdbook-catppuccin mdbook-deps/bin
     cargo install mdbook-mermaid --root mdbook-deps
 
 build:

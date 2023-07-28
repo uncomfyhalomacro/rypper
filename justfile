@@ -7,13 +7,15 @@ docs: get-deps-book
     export PATH
     mdbook-catppuccin install docs
     mdbook-mermaid install docs
-    mdbook build docs
+    pushd docs
+    mdbook build
+    popd
     git config --global init.defaultBranch main
     git config --global user.name "${CI_REPO_OWNER}" 
     git config --global user.email "${MAIL}"
     pushd ../
     mkdir -p docs/
-    cd docs
+    pushd docs
     git init 
     git remote add origin "https://${RYPPER_ACCESS_TOKEN}@codeberg.org/${CI_REPO}.git"
     git switch --orphan pages
@@ -28,7 +30,8 @@ docs: get-deps-book
     git add -A
     git commit -m "update book for commit ${CI_COMMIT_SHA}"
     git push --force -u origin pages
-
+    popd
+    
 get-deps:
     zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel libopenssl-devel clang-devel
 

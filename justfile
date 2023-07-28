@@ -30,7 +30,7 @@ docs: get-deps-book
     git push --force -u origin pages
 
 get-deps:
-    zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel libopenssl-devel
+    zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel libopenssl-devel clang-devel
 
 get-deps-book:
     zypper --non-interactive install mdbook git

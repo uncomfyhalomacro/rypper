@@ -3,11 +3,11 @@
 docs: get-deps-book
     #!/usr/bin/env bash
     set -euxo pipefail
-    mdbook build docs
     PATH="${PATH}:${PWD}/mdbook-deps/bin"
     export PATH
     mdbook-catppuccin install docs
     mdbook-mermaid install docs
+    mdbook build docs
     git config --global init.defaultBranch main
     git config --global user.name "${CI_REPO_OWNER}" 
     git config --global user.email "${MAIL}"

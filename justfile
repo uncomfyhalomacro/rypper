@@ -5,9 +5,9 @@ docs: get-deps-book
     set -euxo pipefail
     PATH="${PATH}:${PWD}/mdbook-deps/bin"
     export PATH
-    mdbook-catppuccin install docs
-    mdbook-mermaid install docs
     pushd docs
+    mdbook-mermaid install
+    mdbook-catppuccin install
     mdbook build
     popd
     git config --global init.defaultBranch main
@@ -31,7 +31,7 @@ docs: get-deps-book
     git commit -m "update book for commit ${CI_COMMIT_SHA}"
     git push --force -u origin pages
     popd
-    
+
 get-deps:
     zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel libopenssl-devel clang-devel
 

@@ -1,0 +1,7 @@
+# Copied over from kanidm
+
+too-many-arguments-threshold = 8
+
+type-complexity-threshold = 300
+
+disallowed-types = ["std::collections::HashMap", "std::collections::HashSet"]

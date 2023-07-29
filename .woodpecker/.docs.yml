@@ -10,7 +10,6 @@ pipeline:
       event: [push, tag]
       branch: 
         include: [ main, develop ]
-        exclude: [ pages, docs, feature/* ]
     image: opensuse/tumbleweed:latest
     secrets: [ rypper_access_token, mail ]
     commands:

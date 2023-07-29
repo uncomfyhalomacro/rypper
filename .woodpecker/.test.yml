@@ -8,9 +8,6 @@ pipeline:
   test:
     when:
       event: [push, tag]
-      branch: 
-        include: [ main, develop ]
-        exclude: [ pages, docs, feature/* ]
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install just

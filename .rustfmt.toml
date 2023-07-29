@@ -1,4 +1,16 @@
 edition="2021"
+fn_params_layout = "Tall"
+group_imports = "One"
+imports_granularity = "Crate"
 newline_style = "Unix"
+tab_spaces = 4
 use_field_init_shorthand = true
 use_small_heuristics = "Max"
+brace_style = "AlwaysNextLine"
+combine_control_expr = false
+wrap_comments = true
+control_brace_style = "AlwaysNextLine"
+fn_single_line = true
+format_strings = true
+hard_tabs = false
+imports_layout = "Vertical"

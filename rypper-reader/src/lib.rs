@@ -1,2 +1,2 @@
-mod metalink;
-mod repoconfig;
+pub mod metalink;
+pub mod repoconfig;

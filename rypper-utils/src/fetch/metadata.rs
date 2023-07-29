@@ -1,22 +1,27 @@
-use reqwest::{Client, Response, header::{ACCEPT, HeaderMap}};
+use reqwest::{
+    header::{
+        HeaderMap,
+        ACCEPT,
+    },
+    Client,
+    Response,
+};
 
-pub const REPO_HEADER: &str = "application/xml, application/metalink+xml, application/metalink4+xml";
+pub const REPO_HEADER: &str =
+    "application/xml, application/metalink+xml, application/metalink4+xml";
 
 // Q: should this be a struct or just util functions?
 // Function to send the custom request
-pub async fn send_custom_request(url: &str) -> Result<Response, reqwest::Error> {
+pub async fn send_custom_request(url: &str) -> Result<Response, reqwest::Error>
+{
     // Create a new reqwest Client
     let client = Client::new();
 
     // Create custom Accept headers
     let mut headers = HeaderMap::new();
     // TODO: the following headers should be a constant?
-    
-    headers.insert(
-        ACCEPT,
-        REPO_HEADER
-            .parse().unwrap(),
-    );
+
+    headers.insert(ACCEPT, REPO_HEADER.parse().unwrap());
 
     // Build the request with the custom headers
     let request_builder = client.get(url).headers(headers);

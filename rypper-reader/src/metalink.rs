@@ -1,21 +1,28 @@
 use md5::Md5;
 use quick_xml::NsReader;
 use sha1::Sha1;
-use sha2::Sha512_256;
-use sha2::{Sha256, Sha512};
-use std::fs;
-use std::path;
-use std::sync::Arc;
+use sha2::{
+    Sha256,
+    Sha512,
+    Sha512_256,
+};
+use std::{
+    fs,
+    path,
+    sync::Arc,
+};
 use url::Url;
 
 // We don't really care about this but for uniformity reasons
-pub struct Publisher {
+pub struct Publisher
+{
     name: String,
     url: Url,
 }
 
 // We really care about this because lol
-pub struct FileData {
+pub struct FileData
+{
     name: String,
     origin: Url,
     hash_md5: Md5,
@@ -26,7 +33,8 @@ pub struct FileData {
     mirrors: Location,
 }
 
-pub struct Location {
+pub struct Location
+{
     // I may use https://github.com/sifton/isocountry-rs/blob/master/src/lib.rs for this but eh not now
     location: String,
     priority: u8,
@@ -34,7 +42,8 @@ pub struct Location {
 }
 
 // This is the struct that we want to construct
-pub struct MetaLinkData {
+pub struct MetaLinkData
+{
     pub generator: String,
     pub published: String,
     pub publisher: Publisher,

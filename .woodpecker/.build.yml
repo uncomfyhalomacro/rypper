@@ -7,10 +7,9 @@ platform: ${platform}
 pipeline:
   build:
     when:
-      event: [push, tag]
+      event: [push, tag, pull_request]
       branch: 
         include: [ main, develop ]
-        exclude: [ pages, docs, feature/* ]
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install just

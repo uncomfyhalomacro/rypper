@@ -7,15 +7,12 @@ platform: ${platform}
 pipeline:
   test:
     when:
-      event: [push, tag]
-      branch: 
-        include: [ main, develop ]
-        exclude: [ pages, docs, feature/* ]
+      event: [push, tag, pull_request]
     image: opensuse/tumbleweed:latest
     commands:
       - zypper --non-interactive install just
       - just get-deps test
-      - just test-release
+      - just test
 
 depends_on:
   - build

@@ -17,10 +17,10 @@ path = "src/lib.rs"
 
 [dependencies]
 quick-xml = "0.29"
-rust-ini = "0.19"
-sequoia-openpgp = "1.16"
+ini_core = "0.2.0"
 url = { version = "2.4", features = ["serde"] }
 sha2 = "0.10"
 sha1 = "0.10"
 md-5 = "0.10"
+regex = "1.9.1"
 

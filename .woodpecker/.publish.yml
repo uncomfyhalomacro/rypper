@@ -10,7 +10,6 @@ pipeline:
       event: [tag, deployment]
       branch: 
         include: [ main, develop ]
-        exclude: [ pages, docs, feature/* ]
     image: opensuse/tumbleweed:latest
     secrets: [ cargo_registry_token ]
     commands:

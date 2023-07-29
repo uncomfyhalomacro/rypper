@@ -7,7 +7,7 @@ platform: ${platform}
 pipeline:
   build:
     when:
-      event: [push, tag]
+      event: [push, tag, pull_request]
       branch: 
         include: [ main, develop ]
     image: opensuse/tumbleweed:latest

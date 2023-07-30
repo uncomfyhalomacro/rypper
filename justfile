@@ -33,7 +33,7 @@ docs: get-deps-book
     popd
 
 get-deps:
-    zypper --non-interactive install gcc gcc-c++ libnettle-devel libzstd-devel libopenssl-devel clang-devel 
+    zypper --non-interactive install gcc gcc-c++ libnettle-devel libzstd-devel libopenssl-devel clang-devel rustup
     rustup install nightly
 
 get-deps-book:

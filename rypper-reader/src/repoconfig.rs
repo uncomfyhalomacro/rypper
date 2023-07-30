@@ -99,9 +99,9 @@ impl Display for RepoConfigErrors
 impl Default for RepoConfig
 {
     /// # NOTE
-    /// ZYpper's behavior is to assume that the following parameters are the default
-    /// Those with None aren't but are just placeholders since there is no way to
-    /// define defaults for aliases and autorefresh
+    /// ZYpper's behavior is to assume that the following parameters are the
+    /// default Those with None aren't but are just placeholders since there
+    /// is no way to define defaults for aliases and autorefresh
     fn default() -> Self
     {
         RepoConfig {
@@ -271,13 +271,15 @@ impl RepoConfig
             }
         }
 
-        if repoconfig.alias.is_none() {
+        if repoconfig.alias.is_none()
+        {
             eprintln!("Repository has no alias defined!");
             return Err(RepoConfigErrors::MissingAliasError);
         }
-        if repoconfig.baseurl.is_none() {
+        if repoconfig.baseurl.is_none()
+        {
             eprintln!("No URI found!");
-            return Err(RepoConfigErrors::MissingUriError)
+            return Err(RepoConfigErrors::MissingUriError);
         }
         Ok(repoconfig)
     }

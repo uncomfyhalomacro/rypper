@@ -1,16 +1,10 @@
 use md5::Md5;
-use quick_xml::NsReader;
 use sha1::Sha1;
 use sha2::{
     Sha256,
     Sha512,
-    Sha512_256,
 };
-use std::{
-    fs,
-    path,
-    sync::Arc,
-};
+use std::sync::Arc;
 use url::Url;
 
 // We don't really care about this but for uniformity reasons

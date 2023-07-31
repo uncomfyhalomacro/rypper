@@ -124,7 +124,12 @@ impl Default for RepoConfig
 
 impl RepoConfig
 {
-    // TODO: Transform Return type to Result<Self, RepoConfigErrors>
+    pub fn from(document: &str) -> Result<RepoConfig, RepoConfigErrors>
+    {
+        let document = ini::Parser::new(document);
+        RepoConfig::read_config(document)
+    }
+
     pub fn load_config_file(p: &str) -> Result<Self, RepoConfigErrors>
     {
         let path_buf: PathBuf = path::PathBuf::from(p);
@@ -133,15 +138,17 @@ impl RepoConfig
         let conf = match fs::read_to_string(path_buf)
         {
             Ok(file) => file,
-            Err(_) =>
-            {
-                return Err(RepoConfigErrors::InvalidConfigError)
-            }
+            Err(_) => return Err(RepoConfigErrors::InvalidConfigError),
         };
+        let config = ini::Parser::new(&conf);
 
+        RepoConfig::read_config(config)
+    }
+
+    pub fn read_config(document: ini::Parser) -> Result<RepoConfig, RepoConfigErrors>
+    {
         let mut repoconfig = RepoConfig::default();
-        let read_config = ini::Parser::new(&conf);
-        for item in read_config
+        for item in document
         {
             match item
             {
@@ -286,6 +293,7 @@ impl RepoConfig
         }
         Ok(repoconfig)
     }
+
     /// TODO:
     /// The following layout should look like
     /// ```ini
@@ -367,20 +375,22 @@ pub fn validate_file_metadata(file_path: &PathBuf) -> Result<&PathBuf, RepoConfi
 #[cfg(test)]
 mod tests
 {
-    
 
     use super::*;
     use std::env;
 
-    // Test equality from config file with another config file and/or variable declared config + default.
+    // Test equality from config file with another config file and/or variable
+    // declared config + default.
     #[test]
     fn equal_repoconfig() -> Result<(), RepoConfigErrors>
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/home_uncomfyhalomacro.repo", manifest_dir);
-        let another_file_path = format!("{}/samples/another_home_uncomfyhalomacro.repo", manifest_dir);
+        let another_file_path =
+            format!("{}/samples/another_home_uncomfyhalomacro.repo", manifest_dir);
         let example_config = RepoConfig::load_config_file(&file_path)?;
-        // This one contains a file which should have same key-values but of different arrangements.
+        // This one contains a file which should have same key-values but of different
+        // arrangements.
         let another_example_config = RepoConfig::load_config_file(&another_file_path)?;
         let config = RepoConfig {
             alias:  Some(String::from("home_uncomfyhalomacro")),
@@ -437,14 +447,24 @@ mod tests
     }
 
     #[test]
+    fn works_with_only_section_and_baseurl_from_str() -> Result<(), RepoConfigErrors>
+    {
+        let document = "\n[section]\nbaseurl=https://example.com\n";
+        let config = RepoConfig::from(&document)?;
+        assert_eq!(Some("section".to_string()), config.alias);
+        assert_eq!(Some("https://example.com".to_string()), config.baseurl);
+        Ok(())
+    }
+
+    #[test]
     fn invalid_if_with_non_existent_file()
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/dummy.repo", manifest_dir);
         assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
-        if let Err(err) = RepoConfig::load_config_file(&file_path) {
+        if let Err(err) = RepoConfig::load_config_file(&file_path)
+        {
             assert_eq!(RepoConfigErrors::InvalidConfigError, err)
         }
     }
 }
-

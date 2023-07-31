@@ -4,6 +4,7 @@ use ini_core as ini;
 use regex::Regex;
 use std::{
     default::Default,
+    error,
     fmt::{
         self,
         Display,
@@ -68,6 +69,8 @@ pub enum RepoConfigErrors
     /// A key that requires a URI string may contain a non-URI string.
     InvalidUriString,
 }
+
+impl error::Error for RepoConfigErrors {}
 
 impl Display for RepoConfigErrors
 {

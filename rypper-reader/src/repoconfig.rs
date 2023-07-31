@@ -53,7 +53,7 @@ enum RepoOptions
     TypeMd(String),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum RepoConfigErrors
 {
     /// Default ZYpper will error if a section is just `[]`, thus,
@@ -133,9 +133,9 @@ impl RepoConfig
         let conf = match fs::read_to_string(path_buf)
         {
             Ok(file) => file,
-            Err(err) =>
+            Err(_) =>
             {
-                panic!("Error reading file to string: {}", err)
+                return Err(RepoConfigErrors::InvalidConfigError)
             }
         };
 
@@ -367,16 +367,21 @@ pub fn validate_file_metadata(file_path: &PathBuf) -> Result<&PathBuf, RepoConfi
 #[cfg(test)]
 mod tests
 {
+    
+
     use super::*;
     use std::env;
 
-    // Test equality from config file and variable declared config + default.
+    // Test equality from config file with another config file and/or variable declared config + default.
     #[test]
     fn equal_repoconfig() -> Result<(), RepoConfigErrors>
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/home_uncomfyhalomacro.repo", manifest_dir);
+        let another_file_path = format!("{}/samples/another_home_uncomfyhalomacro.repo", manifest_dir);
         let example_config = RepoConfig::load_config_file(&file_path)?;
+        // This one contains a file which should have same key-values but of different arrangements.
+        let another_example_config = RepoConfig::load_config_file(&another_file_path)?;
         let config = RepoConfig {
             alias:  Some(String::from("home_uncomfyhalomacro")),
             autorefresh:  Some(true),
@@ -389,6 +394,7 @@ mod tests
             .. Default::default()
         };
         assert_eq!(example_config, config);
+        assert_eq!(another_example_config, example_config);
         Ok(())
     }
 
@@ -399,7 +405,7 @@ mod tests
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/invalid_baseurl.repo", manifest_dir);
-        let _config = RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
+        RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
     }
     #[test]
     #[should_panic(expected = "Invalid URI string")]
@@ -407,7 +413,7 @@ mod tests
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/invalid_gpgkey_uri.repo", manifest_dir);
-        let _config = RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
+        RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
     }
 
     #[test]
@@ -416,6 +422,29 @@ mod tests
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/no_baseurl.repo", manifest_dir);
-        let _config = RepoConfig::load_config_file(&file_path).expect("No baseurl");
+        RepoConfig::load_config_file(&file_path).expect("No baseurl");
+    }
+
+    #[test]
+    fn works_with_only_section_and_baseurl() -> Result<(), RepoConfigErrors>
+    {
+        let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+        let file_path = format!("{}/samples/only_section_and_baseurl.repo", manifest_dir);
+        let config = RepoConfig::load_config_file(&file_path)?;
+        assert_eq!(Some("a_section".to_string()), config.alias);
+        assert_eq!(Some("https://example.com".to_string()), config.baseurl);
+        Ok(())
+    }
+
+    #[test]
+    fn invalid_if_with_non_existent_file()
+    {
+        let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+        let file_path = format!("{}/samples/dummy.repo", manifest_dir);
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
+        if let Err(err) = RepoConfig::load_config_file(&file_path) {
+            assert_eq!(RepoConfigErrors::InvalidConfigError, err)
+        }
     }
 }
+

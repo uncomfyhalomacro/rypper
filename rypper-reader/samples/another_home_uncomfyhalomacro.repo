@@ -1,0 +1,6 @@
+[home_uncomfyhalomacro]
+baseurl=https://download.opensuse.org/repositories/home:/uncomfyhalomacro/openSUSE_Tumbleweed/
+enabled=1
+gpgkey=https://download.opensuse.org/repositories/home:/uncomfyhalomacro/openSUSE_Tumbleweed/repodata/repomd.xml.key
+autorefresh=1
+gpgcheck=1

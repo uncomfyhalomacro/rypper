@@ -33,10 +33,12 @@ docs: get-deps-book
     popd
 
 get-deps:
-    zypper --non-interactive install gcc gcc-c++ cargo libnettle-devel libzstd-devel libopenssl-devel clang-devel
+    zypper --non-interactive install gcc gcc-c++ libnettle-devel libzstd-devel libopenssl-devel clang-devel rustup
+    rustup install nightly
 
 get-deps-book:
-    zypper --non-interactive install mdbook git cargo
+    zypper --non-interactive install mdbook git rustup
+    rustup install nightly
     mkdir -p mdbook-deps/bin
     cargo install --git "https://github.com/catppuccin/mdBook" --root mdbook-deps
     cargo install mdbook-mermaid --root mdbook-deps
@@ -60,7 +62,7 @@ publish:
     cargo publish --token "${CARGO_REGISTRY_TOKEN}"
 
 format:
-    cargo +nightly fmt
+    cargo fmt
 
 # Ignore install section
 do-all: get-deps build-release test docs publish

@@ -17,6 +17,8 @@ default-members = [
   "rypper-utils"
 ]
 
+resolver = "2"
+
 [profile.release]
 lto = true          # Enable Link Time Optimization.
 debug = true        # Include debug symbols. If you are going to complain for big binary sizes, there is a release-stripped option :P

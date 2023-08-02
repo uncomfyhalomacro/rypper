@@ -24,15 +24,33 @@ pub const ZYPP_REPO_PATH: &str = "/etc/zypp/repos.d";
 /// Minimal valid config only requires a section AND URI.
 pub struct RepoConfig
 {
+    /// This cannot be `None`.
     pub alias: Option<String>,
+    /// Value is based on `usize`. 0 is false. Greater than 1 is true.
     pub autorefresh: Option<bool>,
+    /// This cannot be `None` or an empty string.
     pub baseurl: Option<String>,
+    /// Value is based on `usize`. 0 is false. Greater than 1 is true.
     pub enabled: Option<bool>,
+    /// Value is based on `usize`. 0 is false. Greater than 1 is true.
     pub gpgcheck: Option<bool>,
     pub gpgkey: Option<String>,
     pub name: Option<String>,
+    /// Path defaults to `/`.
     pub path: Option<PathBuf>,
+    /// According to `man zypper`:
+    /// ```man
+    /// Set the priority of the repository. Priority of 1 is the highest, and
+    /// 2147483647 is the lowest. -p 0 will set the priority back
+    /// to the default (99). Packages from repositories with
+    /// higher priority will be used even if there are better
+    /// versions available in a repository with a lower priority.
+    /// ```
+    /// Hence, we use u32 here. To be honest, that's overkill. 🥴
     pub priority: Option<u32>,
+    /// The default is actually rpm-md but it can be just `None`. I don't really
+    /// see much use of this for now. There is an alternative called RIS or [Resource Index Service](https://en.opensuse.org/openSUSE:Standards_Repository_Index_Service)
+    /// This post explains its advantages: <https://news.opensuse.org/2023/07/31/try-out-cdn-with-opensuse-repos>
     pub typemd: Option<String>,
 }
 
@@ -154,6 +172,7 @@ impl RepoConfig
 
         // We skip the first section end because
         // ```ini
+        // # Some whitespace here. We stripped it though at `from` and `load_config_file`
         // # this corresponds a SectionEnd. Skipped.
         // [somesection]
         // # More stuff here

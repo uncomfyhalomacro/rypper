@@ -7,32 +7,35 @@ use sha2::{
 use std::sync::Arc;
 use url::Url;
 
+pub struct MirrorList {
+    pub mirrors: Arc<Mirror>
+}
 // We don't really care about this but for uniformity reasons
 pub struct Publisher
 {
-    name: String,
-    url: Url,
+    pub name: String,
+    pub url: Url,
 }
 
 // We really care about this because lol
 pub struct FileData
 {
-    name: String,
-    origin: Url,
-    hash_md5: Md5,
-    hash_sha1: Sha1,
-    hash_sha256: Sha256,
-    hash_sha512: Sha512,
-    pieces: Arc<Sha1>,
-    mirrors: Location,
+    pub name: String,
+    pub origin: Url,
+    pub hash_md5: Md5,
+    pub hash_sha1: Sha1,
+    pub hash_sha256: Sha256,
+    pub hash_sha512: Sha512,
+    pub pieces: Arc<Sha1>,
+    pub mirrorlist: MirrorList
 }
 
-pub struct Location
+pub struct Mirror
 {
     // I may use https://github.com/sifton/isocountry-rs/blob/master/src/lib.rs for this but eh not now
-    location: String,
-    priority: u8,
-    url: Url,
+    pub location: String,
+    pub priority: u8,
+    pub url: Url,
 }
 
 // This is the struct that we want to construct
@@ -44,8 +47,13 @@ pub struct MetaLinkData
     pub file: FileData,
 }
 
-impl MetaLinkData {}
-
-impl Location {}
 impl FileData {}
+impl MetaLinkData {}
+impl Mirror {}
+impl MirrorList {}
 impl Publisher {}
+
+
+
+
+

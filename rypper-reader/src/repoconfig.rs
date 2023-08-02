@@ -152,6 +152,13 @@ impl RepoConfig
     {
         let mut repoconfig = RepoConfig::default();
 
+        // We skip the first section end because
+        // ```ini
+        // # this corresponds a SectionEnd. Skipped.
+        // [somesection]
+        // # More stuff here
+        // # This corresponds another Section End
+        // ```
         for item in document.skip(1)
         {
             match item

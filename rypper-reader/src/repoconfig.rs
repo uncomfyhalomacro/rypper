@@ -148,10 +148,11 @@ impl RepoConfig
     pub fn read_config(document: ini::Parser) -> Result<RepoConfig, RepoConfigErrors>
     {
         let mut repoconfig = RepoConfig::default();
-        for item in document
+        for item in document.skip(1)
         {
             match item
             {
+                ini::Item::SectionEnd => { break }
                 ini::Item::Error(err) =>
                 {
                     eprintln!("Ini format error: {}", err);
@@ -276,6 +277,7 @@ impl RepoConfig
                     _ =>
                     {}
                 },
+                
                 _ =>
                 {}
             }
@@ -449,7 +451,10 @@ mod tests
     #[test]
     fn works_with_only_section_and_baseurl_from_str() -> Result<(), RepoConfigErrors>
     {
-        let document = "\n[section]\nbaseurl=https://example.com\n";
+        let document = "\
+        [section]
+baseurl=https://example.com
+";
         let config = RepoConfig::from(&document)?;
         assert_eq!(Some("section".to_string()), config.alias);
         assert_eq!(Some("https://example.com".to_string()), config.baseurl);
@@ -467,4 +472,12 @@ mod tests
             assert_eq!(RepoConfigErrors::InvalidConfigError, err)
         }
     }
+
+    #[test]
+    fn invalid_if_no_section() {
+        let document = "baseurl=https://example.com";
+        let config = RepoConfig::from(&document);
+        assert_eq!(true, config.is_err());
+    }
 }
+

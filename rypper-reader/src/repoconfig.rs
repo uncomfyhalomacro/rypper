@@ -19,7 +19,7 @@ use std::{
 pub const ZYPP_CONFIG_PATH: &str = "/etc/zypp";
 pub const ZYPP_REPO_PATH: &str = "/etc/zypp/repos.d";
 
-#[derive(Clone, Debug, Eq, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Hash)]
 /// # Config Validity
 /// Minimal valid config only requires a section AND URI.
 pub struct RepoConfig
@@ -54,16 +54,17 @@ pub enum RepoConfigErrors
 {
     /// Default ZYpper will error if a section is just `[]`, thus,
     /// `MissingAliasError`.
-    MissingAliasError,
+    MissingAlias,
     /// There is no way to request for a file or mirror if there is no URI.
-    MissingUriError,
+    MissingUri,
     /// There is no way to read a non-existing config file.
-    MissingConfigError,
-    /// Invalid config files such as typos or missing brackets or even just an
-    /// empty file.
-    InvalidConfigError,
+    MissingConfig,
+    /// Invalid config files such as typos or missing brackets
+    InvalidConfig,
     /// A key that requires a URI string may contain a non-URI string.
     InvalidUriString,
+    EmptyConfig,
+    FileNotFound,
 }
 
 impl error::Error for RepoConfigErrors {}
@@ -74,23 +75,29 @@ impl Display for RepoConfigErrors
     {
         match self
         {
-            RepoConfigErrors::MissingAliasError =>
+            // TODO: Make error explicit
+            RepoConfigErrors::EmptyConfig =>
+            {
+                write!(f, "A variant of RepoConfig occured")
+            }
+            RepoConfigErrors::MissingAlias =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
-            RepoConfigErrors::MissingUriError =>
+            RepoConfigErrors::MissingUri =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
-            RepoConfigErrors::MissingConfigError =>
+            RepoConfigErrors::MissingConfig =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
-            RepoConfigErrors::InvalidConfigError =>
+            RepoConfigErrors::InvalidConfig =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
             RepoConfigErrors::InvalidUriString => write!(f, "A variant of RepoConfigError occured"),
+            RepoConfigErrors::FileNotFound => write!(f, "A variant of RepoConfig occured"),
         }
     }
 }
@@ -134,7 +141,7 @@ impl RepoConfig
         let conf = match fs::read_to_string(path_buf)
         {
             Ok(file) => file,
-            Err(_) => return Err(RepoConfigErrors::InvalidConfigError),
+            Err(_) => return Err(RepoConfigErrors::FileNotFound),
         };
         let config = ini::Parser::new(&conf.trim_start());
 
@@ -149,13 +156,16 @@ impl RepoConfig
         {
             match item
             {
+                // TODO: Should we really break this? I feel like passing it into a Vec is better?
+                // Another reason why I stick to this is because repoconfig files usually have ONE
+                // section only. I will improve this in the future if edge cases become more common.
                 ini::Item::SectionEnd => break,
                 ini::Item::Blank => continue,
                 ini::Item::Comment(_) => continue,
                 ini::Item::Error(err) =>
                 {
                     eprintln!("Ini format error: {}", err);
-                    return Err(RepoConfigErrors::InvalidConfigError);
+                    return Err(RepoConfigErrors::InvalidConfig);
                 }
                 ini::Item::Section(section) => match validate_alias(section)
                 {
@@ -282,12 +292,12 @@ impl RepoConfig
         if repoconfig.alias.is_none()
         {
             eprintln!("Repository has no alias defined!");
-            return Err(RepoConfigErrors::MissingAliasError);
+            return Err(RepoConfigErrors::MissingAlias);
         }
         if repoconfig.baseurl.is_none()
         {
             eprintln!("No URI found!");
-            return Err(RepoConfigErrors::MissingUriError);
+            return Err(RepoConfigErrors::MissingUri);
         }
         Ok(repoconfig)
     }
@@ -307,7 +317,7 @@ fn validate_alias(alias: &str) -> Result<&str, RepoConfigErrors>
 {
     match alias
     {
-        "" => Err(RepoConfigErrors::MissingAliasError),
+        "" => Err(RepoConfigErrors::MissingAlias),
         _ => Ok(alias),
     }
 }
@@ -333,7 +343,7 @@ pub fn validate_uri(uristring: Option<&str>) -> Result<&str, RepoConfigErrors>
     {
         Some(s) => match s
         {
-            "" => Err(RepoConfigErrors::MissingUriError),
+            "" => Err(RepoConfigErrors::MissingUri),
             _ =>
             {
                 let uri_pattern =
@@ -345,7 +355,7 @@ pub fn validate_uri(uristring: Option<&str>) -> Result<&str, RepoConfigErrors>
                 }
             }
         },
-        None => Err(RepoConfigErrors::MissingUriError),
+        None => Err(RepoConfigErrors::MissingUri),
     }
 }
 
@@ -357,14 +367,14 @@ pub fn validate_file_metadata(file_path: &PathBuf) -> Result<&PathBuf, RepoConfi
         Err(err) =>
         {
             eprintln!("Error reading file: {}", err);
-            return Err(RepoConfigErrors::InvalidConfigError);
+            return Err(RepoConfigErrors::FileNotFound);
         }
     };
 
     if file_md.len() == 0
     {
         eprintln!("File contains no content");
-        return Err(RepoConfigErrors::InvalidConfigError);
+        return Err(RepoConfigErrors::EmptyConfig);
     }
     Ok(file_path)
 }
@@ -481,7 +491,7 @@ baseurl=https://example.com
         assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
         if let Err(err) = RepoConfig::load_config_file(&file_path)
         {
-            assert_eq!(RepoConfigErrors::InvalidConfigError, err)
+            assert_eq!(RepoConfigErrors::FileNotFound, err)
         }
     }
 

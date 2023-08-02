@@ -24,10 +24,6 @@ pub const ZYPP_REPO_PATH: &str = "/etc/zypp/repos.d";
 /// Minimal valid config only requires a section AND URI.
 pub struct RepoConfig
 {
-    // TODO: Replace this with something else. Change this into something that holds
-    // a Result type? MissingAliasError both for reading the config EXCEPT
-    // at gen_empty_config.
-    // TODO: Wrap this with Result?
     pub alias: Option<String>,
     pub autorefresh: Option<bool>,
     pub baseurl: Option<String>,
@@ -126,7 +122,7 @@ impl RepoConfig
 {
     pub fn from(document: &str) -> Result<RepoConfig, RepoConfigErrors>
     {
-        let document = ini::Parser::new(document);
+        let document = ini::Parser::new(document.trim_start());
         RepoConfig::read_config(document)
     }
 
@@ -140,7 +136,7 @@ impl RepoConfig
             Ok(file) => file,
             Err(_) => return Err(RepoConfigErrors::InvalidConfigError),
         };
-        let config = ini::Parser::new(&conf);
+        let config = ini::Parser::new(&conf.trim_start());
 
         RepoConfig::read_config(config)
     }
@@ -148,11 +144,14 @@ impl RepoConfig
     pub fn read_config(document: ini::Parser) -> Result<RepoConfig, RepoConfigErrors>
     {
         let mut repoconfig = RepoConfig::default();
+
         for item in document.skip(1)
         {
             match item
             {
-                ini::Item::SectionEnd => { break }
+                ini::Item::SectionEnd => break,
+                ini::Item::Blank => continue,
+                ini::Item::Comment(_) => continue,
                 ini::Item::Error(err) =>
                 {
                     eprintln!("Ini format error: {}", err);
@@ -277,9 +276,6 @@ impl RepoConfig
                     _ =>
                     {}
                 },
-                
-                _ =>
-                {}
             }
         }
 
@@ -412,29 +408,26 @@ mod tests
 
     // Test if it will panic with an invalid URI string gained from a config file.
     #[test]
-    #[should_panic(expected = "Invalid URI string")]
     fn invalid_baseurl()
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/invalid_baseurl.repo", manifest_dir);
-        RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
     #[test]
-    #[should_panic(expected = "Invalid URI string")]
     fn invalid_gpgkey_uri()
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/invalid_gpgkey_uri.repo", manifest_dir);
-        RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
 
     #[test]
-    #[should_panic(expected = "No baseurl")]
     fn errors_without_baseurl()
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/no_baseurl.repo", manifest_dir);
-        RepoConfig::load_config_file(&file_path).expect("No baseurl");
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
 
     #[test]
@@ -451,11 +444,30 @@ mod tests
     #[test]
     fn works_with_only_section_and_baseurl_from_str() -> Result<(), RepoConfigErrors>
     {
-        let document = "\
-        [section]
+        let document = r#"[section]
 baseurl=https://example.com
-";
+"#;
         let config = RepoConfig::from(&document)?;
+        println!("{:#?}", config);
+        assert_eq!(Some("section".to_string()), config.alias);
+        assert_eq!(Some("https://example.com".to_string()), config.baseurl);
+        Ok(())
+    }
+
+    #[test]
+    fn works_with_too_many_whitespaces_for_valid_config() -> Result<(), RepoConfigErrors>
+    {
+        let document = r#"
+
+
+
+
+
+[section]
+baseurl=https://example.com
+"#;
+        let config = RepoConfig::from(&document)?;
+        println!("{:#?}", config);
         assert_eq!(Some("section".to_string()), config.alias);
         assert_eq!(Some("https://example.com".to_string()), config.baseurl);
         Ok(())
@@ -474,10 +486,26 @@ baseurl=https://example.com
     }
 
     #[test]
-    fn invalid_if_no_section() {
+    fn invalid_if_no_section()
+    {
         let document = "baseurl=https://example.com";
         let config = RepoConfig::from(&document);
         assert_eq!(true, config.is_err());
     }
-}
 
+    #[test]
+    fn invalid_if_empty_str()
+    {
+        let document = "";
+        let config = RepoConfig::from(&document);
+        assert_eq!(true, config.is_err());
+    }
+
+    #[test]
+    fn invalid_if_empty_config()
+    {
+        let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+        let file_path = format!("{}/samples/empty_config.repo", manifest_dir);
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
+    }
+}

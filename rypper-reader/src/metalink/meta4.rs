@@ -99,7 +99,8 @@ mod tests
 
     #[test]
     #[should_panic]
-    fn panic_at_non_existent_file() {
+    fn panic_at_non_existent_file()
+    {
         let somefile = "";
         let _ = MetaLink::from_file(&somefile);
     }

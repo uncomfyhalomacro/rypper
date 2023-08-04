@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metalink version="3.0" xmlns="http://www.metalinker.org/" type="dynamic" origin="https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml.metalink" generator="MirrorCache" pubdate="2023-08-04 10:25:03 AEST">
+  <publisher>
+    <name>openSUSE</name>
+    <url>http://download.opensuse.org</url>
+  </publisher>
+  <files>
+    <file name="repomd.xml">
+      <size>10725</size>
+      <!-- <mtime>1691019539</mtime> -->
+      <resources>
+        <!-- Mirrors which handle this country (PH):  -->
+        <!-- Mirrors in the same continent (AS):  -->
+        <!-- Mirrors in other parts of the world:  -->
+        <url type="https" location="AU" preference="100">https://sy.mirrors.kernel.org/opensuse/tumbleweed/repo/oss/repodata/repomd.xml</url>
+        <url type="https" location="NZ" preference="99">https://mirror.2degrees.nz/opensuse/tumbleweed/repo/oss/repodata/repomd.xml</url>
+        <!-- File origin location:  -->
+        <!-- https://mirror.firstyear.id.au/tumbleweed/repo/oss/repodata/repomd.xml -->
+      </resources>
+    </file>
+  </files>
+</metalink>

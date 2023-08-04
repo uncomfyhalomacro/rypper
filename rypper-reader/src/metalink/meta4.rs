@@ -9,7 +9,7 @@ use serde::{
 use std::path::Path;
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 /// Uses metalink+xml version 4 as defined in <https://datatracker.ietf.org/doc/html/rfc5854>
 /// There are subtle differences differences with metalink version 3.0 but
 /// not that much.
@@ -30,7 +30,7 @@ pub struct MetaLink
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct Origin
 {
     #[serde(rename = "@dynamic")]
@@ -40,7 +40,7 @@ struct Origin
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct Publisher
 {
     name: String,
@@ -48,7 +48,7 @@ struct Publisher
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct File
 {
     #[serde(rename = "@name")]
@@ -58,7 +58,7 @@ struct File
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct Url
 {
     #[serde(rename = "@location")]

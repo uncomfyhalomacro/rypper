@@ -9,7 +9,7 @@ use serde::{
 use std::path::Path;
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 pub struct MetaLink
 {
     #[serde(rename = "@version")]
@@ -31,7 +31,7 @@ pub struct MetaLink
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct Publisher
 {
     #[serde(rename = "name")]
@@ -41,14 +41,14 @@ struct Publisher
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct Files
 {
     file: Vec<File>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct File
 {
     #[serde(rename = "@name")]
@@ -59,14 +59,14 @@ struct File
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct Resources
 {
     url: Vec<Url>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 struct Url
 {
     #[serde(rename = "@type")]

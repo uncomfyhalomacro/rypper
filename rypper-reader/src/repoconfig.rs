@@ -442,7 +442,6 @@ mod tests
         Ok(())
     }
 
-    // Test if it will panic with an invalid URI string gained from a config file.
     #[test]
     fn invalid_baseurl()
     {
@@ -450,6 +449,7 @@ mod tests
         let file_path = format!("{}/samples/invalid_baseurl.repo", manifest_dir);
         assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
+
     #[test]
     fn invalid_gpgkey_uri()
     {

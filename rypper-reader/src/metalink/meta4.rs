@@ -96,4 +96,11 @@ mod tests
         let file_path = format!("{}/samples/valid-metalink4-file.xml", &manifest_path);
         assert_eq!(true, MetaLink::from_file(file_path).is_ok());
     }
+
+    #[test]
+    #[should_panic]
+    fn panic_at_non_existent_file() {
+        let somefile = "";
+        let _ = MetaLink::from_file(&somefile);
+    }
 }

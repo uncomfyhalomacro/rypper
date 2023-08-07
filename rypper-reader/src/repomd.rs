@@ -25,7 +25,9 @@ pub struct RepoMd
 
 impl RepoMd
 {
-    pub fn from_file<P: AsRef<Path>>(p: P) -> Result<Self, DeError>
+    pub fn from_file<P>(p: P) -> Result<Self, DeError>
+    where
+        P: AsRef<Path>,
     {
         match std::fs::read_to_string(p).map(|content| from_str::<RepoMd>(&content))
         {
@@ -71,7 +73,6 @@ struct Data
 {
     #[serde(rename = "@type")]
     r#type: String,
-    #[serde(rename = "checksum")]
     checksum: CheckSum,
     #[serde(rename = "open-checksum")]
     open_checksum: OpenCheckSum,

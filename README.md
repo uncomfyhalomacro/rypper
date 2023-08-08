@@ -15,6 +15,7 @@
 A package manager for openSUSE written in Rust.
 
 [![Join Us Now on Codeberg](./assets/join-us-now-on-blue-on-white.png)](https://codeberg.org/uncomfyhalomacro/rypper)
+[![Support and Promote Codeberg](./assets/support-and-promote-blue-on-white.png)](https://codeberg.org)
 
 It aims to:
 

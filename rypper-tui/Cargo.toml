@@ -1,6 +1,6 @@
 [package]
 name = "rypper-tui"
-version = "0.1.0-alpha.4"
+version = "0.1.0"
 edition = "2021"
 authors = [ "Soc Virnyl Estela <socvirnyl.estela@gmail.com>" ]
 description = "An alternative package manager for openSUSE"

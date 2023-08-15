@@ -3,6 +3,7 @@ members = [
   "rypper",
   "rypper-cli",
   "rypper-core",
+  "rypper-gui",
   "rypper-reader",
   "rypper-tui",
   "rypper-utils"
@@ -12,12 +13,23 @@ default-members = [
   "rypper",
   "rypper-cli",
   "rypper-core",
+  "rypper-gui",
   "rypper-reader",
   "rypper-tui",
   "rypper-utils"
 ]
 
 resolver = "2"
+[workspace.package]
+version = "0.1.0"
+authors = [
+        "Soc Virnyl Estela <socvirnyl.estela@gmail.com>"
+]
+rust-version = "1.71"
+edition = "2021"
+license = "MPL-2.0"
+homepage = "https://codeberg.org/uncomfyhalomacro/rypper"
+repository = "https://codeberg.org/uncomfyhalomacro/rypper"
 
 [profile.release]
 lto = true          # Enable Link Time Optimization.

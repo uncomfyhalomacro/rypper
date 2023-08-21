@@ -23,5 +23,7 @@ sha2 = "0.10"
 sha1 = "0.10"
 md-5 = "0.10"
 regex = "1.9.1"
-serde = { version = "1", features = ["derive"] }
+# Pin to the most recent version before 1.0.172
+# https://github.com/serde-rs/serde/issues/2538 is a security risk.
+serde = { version = "1.0.171, <1.0.172", features = ["derive", "alloc"] }
 

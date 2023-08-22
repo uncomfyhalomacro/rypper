@@ -17,4 +17,4 @@ pipeline:
 depends_on:
   - build
 
-runs_on: [ success ]
+runs_on: [ success, failure ]

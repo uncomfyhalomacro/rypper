@@ -4,7 +4,7 @@ matrix:
 
 platform: ${platform}
 
-pipeline:
+steps:
   release:
     when:
       event: [push, tag]

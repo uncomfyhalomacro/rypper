@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metalink xmlns="urn:ietf:params:xml:ns:metalink">
+  <generator>MirrorCache</generator>
+  <origin dynamic="true">https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml</origin>
+  <published>2023-08-03T18:10:43Z</published>
+  <publisher>
+    <name>openSUSE</name>
+    <url>http://download.opensuse.org</url>
+  </publisher>
+  <file name="repomd.xml">
+    <size>10725</size>
+    <!-- <mtime>1690921504</mtime> -->
+    <!-- Mirrors which handle this country (PH):  -->
+    <!-- Mirrors in the same continent (AS):  -->
+    <!-- Mirrors in other parts of the world:  -->
+    <url location="AU" priority="1">https://sy.mirrors.kernel.org/opensuse/tumbleweed/repo/oss/repodata/repomd.xml</url>
+    <url location="NZ" priority="2">https://mirror.2degrees.nz/opensuse/tumbleweed/repo/oss/repodata/repomd.xml</url>
+    <!-- File origin location:  -->
+    <!-- https://mirror.firstyear.id.au/tumbleweed/repo/oss/repodata/repomd.xml -->
+  </file>
+</metalink>

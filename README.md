@@ -1,14 +1,16 @@
-         ____                              
-        |  _ \ _   _ _ __  _ __   ___ _ __ 
-        | |_) | | | | '_ \| '_ \ / _ \ '__|
-        |  _ <| |_| | |_) | |_) |  __/ |   
-        |_| \_\\__, | .__/| .__/ \___|_|   
-               |___/|_|   |_|              
-
+```
+                               ______  __                     
+                              / __ \ \/ ____  ____  ___  _____
+                             / /_/ /\  / __ \/ __ \/ _ \/ ___/
+                            / _, _/ / / /_/ / /_/ /  __/ /    
+                           /_/ |_| /_/ .___/ .___/\___/_/     
+                                    /_/   /_/                 
+     
+```
 ---
 
 [![CI Status](https://ci.codeberg.org/api/badges/uncomfyhalomacro/rypper/status.svg)][ci-status-link]
-[![License](https://img.shields.io/crates/l/rypper)][crates]
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 
 A package manager for openSUSE written in Rust.
 
@@ -31,3 +33,6 @@ For contributing, check out the [developer guide](https://uncomfyhalomacro.codeb
 [codeberg-page]: https://uncomfyhalomacro.codeberg.page/rypper
 [docsrs]: https://docs.rs/rypper/latest/rypper
 [crates]: https://crates.io/crates/rypper
+
+<a href="https://codeberg.org/uncomfyhalomacro/rypper" target="_blank"><img alt="Join Us Now on Codeberg" src="./assets/join-us-now-on-blue-on-white.png" height="60" /></a>
+<a href="https://codeberg.org" target="_blank"><img alt="Support and Promote Codeberg" src="./assets/support-and-promote-blue-on-white.png" height="60" /></a>

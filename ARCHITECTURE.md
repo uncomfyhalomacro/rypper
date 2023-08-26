@@ -65,12 +65,47 @@ but not limited to the following:
 
 ## Utilities (rypper-utils)
 
-The utilities contains all helper/handler functions and stuff that are used around the project.
+The utilities contains all helper/handler functions and stuff that are used around the project that *may not fit in some rypper libraries*.
 
 ## Core (rypper-core)
 
-Bundles everything except for plugins. I plan to have a plugin system.
+Core functionaliy that bundles all other rypper libraries. The logic are finally wrapped around in this library.
 
 <!--TODO: Write about how to have a good relationship with mirrors, mirrorcache, file requests, and also how to prioritize
 mirrors based on weight -->
+
+
+# Mirrors vs Mirrorcache
+
+<!--TODO: Finish researching about this one -->
+Mirrors are essential for every Linux distribution. In openSUSE, packages, software and libraries are built around from what is
+called as Open Build Service or for short, OBS (not the Open Broadcasting Software). Packages go there to be built and thoroughly
+checked through openQA. If a package successfully builds in OBS, it will then be pushed into a Mirror such as https://download.opensuse.org/. 
+Once there, it can be downloaded as an RPM package using a package manager e.g. `zypper`.
+
+Therefore, a mirror is basically a "place" where packages are hosted for a Linux distribution to be installed from or updated. But what is
+openSUSE's MirrorCache interface?
+
+As defined by their description of their [project on GitHub](https://github.com/openSUSE/MirrorCache), it's a redirector. There are many mirrors
+that host packages for various distributions around the world including openSUSE's. An example to check if you are in a mirror redirector
+is to run:
+
+This will give you a metalink version 4 file. It lists the mirrors that are available and closest to you based on region
+```sh
+curl -H "Accept: application/metalink4+xml"  https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml
+```
+
+```sh
+curl -L -H "Accept: */*"  https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml
+```
+
+```sh
+curl -H "Accept: */*"  https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml
+```
+
+<!--NOTE: Mirrorcache is a misnomer. It's actually a "redirector" -->
+
+# CDN (RIS)
+
+New architecture from openSUSE? or for openSUSE? 
 

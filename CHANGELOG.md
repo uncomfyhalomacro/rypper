@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
+### Bug Fixes
+
+- Use SectionEnds to properly read repository configs [2300028](https://codeberg.org/uncomfyhalomacro/rypper/commit/230002899e9be37da095fe1a3883999b2bbe1c08)
+
 ### Dependencies
 
 - Add rypper tui [CI SKIP] [63b8e8f](https://codeberg.org/uncomfyhalomacro/rypper/commit/63b8e8f6fc7a5c3f97d6bbe75b27107adac2c7e9)
@@ -34,6 +38,7 @@ All notable changes to this project will be documented in this file.
 - Copy LICENSE to each subcrate [95c01b9](https://codeberg.org/uncomfyhalomacro/rypper/commit/95c01b9f2a2ddb9908ee84ce42cd57e7a3b3fef6)
 - Include mermaid renderer for mdbook [1964ca4](https://codeberg.org/uncomfyhalomacro/rypper/commit/1964ca4568e72a99387354e8c18e3e1425b39f50)
 - Add initial flowchart for ARCHITECTURE.md [04bc02c](https://codeberg.org/uncomfyhalomacro/rypper/commit/04bc02ce716240c5342419570fd16afc2a9f6009)
+- Update README ascii art [7e57ff4](https://codeberg.org/uncomfyhalomacro/rypper/commit/7e57ff4373047564aee0ff77f0aa1d4d7c878705)
 
 ### Miscellaneous Tasks
 
@@ -59,19 +64,27 @@ All notable changes to this project will be documented in this file.
 - Use workspace.resolver 2 [CI SKIP] [67b6fbe](https://codeberg.org/uncomfyhalomacro/rypper/commit/67b6fbe428f2e2a205e05b0db323cca06800241d)
 - Run cargo fmt and fix [e754751](https://codeberg.org/uncomfyhalomacro/rypper/commit/e7547518ce2fc820c28f585d8536a1914f748819)
 - Implement Error trait for RepoConfigErrors [4569652](https://codeberg.org/uncomfyhalomacro/rypper/commit/4569652be2844384b768031f7f357ee02233782f)
+- Update Cargo.toml [98196a2](https://codeberg.org/uncomfyhalomacro/rypper/commit/98196a234b885feff9d1cbe26196b0099ca90b84)
 
 ### Refactor
 
 - Move over config generation logic to a separate function [a5c7358](https://codeberg.org/uncomfyhalomacro/rypper/commit/a5c7358b83d13aac850bcb0673871c4c25ed1a93)
+- Trim start of string and add match arms [bd6fbf3](https://codeberg.org/uncomfyhalomacro/rypper/commit/bd6fbf359cad66820e71276417eb9b96a94775d0)
+- Support reading for metalink v3 and v4 [4b6975a](https://codeberg.org/uncomfyhalomacro/rypper/commit/4b6975a0665c4cb0231ff99bb46944301ce02ea6)
 
 ### Testing
 
 - Add sample file for read_repoconfig test [4eed08d](https://codeberg.org/uncomfyhalomacro/rypper/commit/4eed08d9c39fd77ab28b9012674c3cb2e2bb4b8f)
 - Improve tests [42acdd1](https://codeberg.org/uncomfyhalomacro/rypper/commit/42acdd14d10e49b20c12b75d7d4bfc7371d0171b)
+- Add test samples for metalink v3 and v4 [732f466](https://codeberg.org/uncomfyhalomacro/rypper/commit/732f46608689bd7c4c8233aba0950eab1bb80965)
 
 ### All
 
 - Refactor [4bf4293](https://codeberg.org/uncomfyhalomacro/rypper/commit/4bf429394a18cbd9841fb2125321de6dcebf1d8a)
+
+### Changelog
+
+- Update changelog [CI SKIP] [c61bf8a](https://codeberg.org/uncomfyhalomacro/rypper/commit/c61bf8a7ae244964ed20faec6f3dbb83bf74562a)
 
 ### Ci
 

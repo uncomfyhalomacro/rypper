@@ -19,24 +19,38 @@ use std::{
 pub const ZYPP_CONFIG_PATH: &str = "/etc/zypp";
 pub const ZYPP_REPO_PATH: &str = "/etc/zypp/repos.d";
 
-#[derive(Clone, Debug, Eq, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Hash)]
 /// # Config Validity
 /// Minimal valid config only requires a section AND URI.
 pub struct RepoConfig
 {
-    // TODO: Replace this with something else. Change this into something that holds
-    // a Result type? MissingAliasError both for reading the config EXCEPT
-    // at gen_empty_config.
-    // TODO: Wrap this with Result?
+    /// This cannot be `None`.
     pub alias: Option<String>,
+    /// Value is based on `usize`. 0 is false. Greater than 1 is true.
     pub autorefresh: Option<bool>,
+    /// This cannot be `None` or an empty string.
     pub baseurl: Option<String>,
+    /// Value is based on `usize`. 0 is false. Greater than 1 is true.
     pub enabled: Option<bool>,
+    /// Value is based on `usize`. 0 is false. Greater than 1 is true.
     pub gpgcheck: Option<bool>,
     pub gpgkey: Option<String>,
     pub name: Option<String>,
+    /// Path defaults to `/`.
     pub path: Option<PathBuf>,
+    /// According to `man zypper`:
+    /// ```man
+    /// Set the priority of the repository. Priority of 1 is the highest, and
+    /// 2147483647 is the lowest. -p 0 will set the priority back
+    /// to the default (99). Packages from repositories with
+    /// higher priority will be used even if there are better
+    /// versions available in a repository with a lower priority.
+    /// ```
+    /// Hence, we use u32 here. To be honest, that's overkill. 🥴
     pub priority: Option<u32>,
+    /// The default is actually rpm-md but it can be just `None`. I don't really
+    /// see much use of this for now. There is an alternative called RIS or [Resource Index Service](https://en.opensuse.org/openSUSE:Standards_Repository_Index_Service)
+    /// This post explains its advantages: <https://news.opensuse.org/2023/07/31/try-out-cdn-with-opensuse-repos>
     pub typemd: Option<String>,
 }
 
@@ -58,16 +72,17 @@ pub enum RepoConfigErrors
 {
     /// Default ZYpper will error if a section is just `[]`, thus,
     /// `MissingAliasError`.
-    MissingAliasError,
+    MissingAlias,
     /// There is no way to request for a file or mirror if there is no URI.
-    MissingUriError,
+    MissingUri,
     /// There is no way to read a non-existing config file.
-    MissingConfigError,
-    /// Invalid config files such as typos or missing brackets or even just an
-    /// empty file.
-    InvalidConfigError,
+    MissingConfig,
+    /// Invalid config files such as typos or missing brackets
+    InvalidConfig,
     /// A key that requires a URI string may contain a non-URI string.
     InvalidUriString,
+    EmptyConfig,
+    FileNotFound,
 }
 
 impl error::Error for RepoConfigErrors {}
@@ -78,23 +93,29 @@ impl Display for RepoConfigErrors
     {
         match self
         {
-            RepoConfigErrors::MissingAliasError =>
+            // TODO: Make error explicit
+            RepoConfigErrors::EmptyConfig =>
+            {
+                write!(f, "A variant of RepoConfig occured")
+            }
+            RepoConfigErrors::MissingAlias =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
-            RepoConfigErrors::MissingUriError =>
+            RepoConfigErrors::MissingUri =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
-            RepoConfigErrors::MissingConfigError =>
+            RepoConfigErrors::MissingConfig =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
-            RepoConfigErrors::InvalidConfigError =>
+            RepoConfigErrors::InvalidConfig =>
             {
                 write!(f, "A variant of RepoConfigError occured")
             }
             RepoConfigErrors::InvalidUriString => write!(f, "A variant of RepoConfigError occured"),
+            RepoConfigErrors::FileNotFound => write!(f, "A variant of RepoConfig occured"),
         }
     }
 }
@@ -126,7 +147,7 @@ impl RepoConfig
 {
     pub fn from(document: &str) -> Result<RepoConfig, RepoConfigErrors>
     {
-        let document = ini::Parser::new(document);
+        let document = ini::Parser::new(document.trim_start());
         RepoConfig::read_config(document)
     }
 
@@ -138,9 +159,9 @@ impl RepoConfig
         let conf = match fs::read_to_string(path_buf)
         {
             Ok(file) => file,
-            Err(_) => return Err(RepoConfigErrors::InvalidConfigError),
+            Err(_) => return Err(RepoConfigErrors::FileNotFound),
         };
-        let config = ini::Parser::new(&conf);
+        let config = ini::Parser::new(&conf.trim_start());
 
         RepoConfig::read_config(config)
     }
@@ -148,14 +169,29 @@ impl RepoConfig
     pub fn read_config(document: ini::Parser) -> Result<RepoConfig, RepoConfigErrors>
     {
         let mut repoconfig = RepoConfig::default();
-        for item in document
+
+        // We skip the first section end because
+        // ```ini
+        // # Some whitespace here. We stripped it though at `from` and `load_config_file`
+        // # this corresponds a SectionEnd. Skipped.
+        // [somesection]
+        // # More stuff here
+        // # This corresponds another Section End
+        // ```
+        for item in document.skip(1)
         {
             match item
             {
+                // TODO: Should we really break this? I feel like passing it into a Vec is better?
+                // Another reason why I stick to this is because repoconfig files usually have ONE
+                // section only. I will improve this in the future if edge cases become more common.
+                ini::Item::SectionEnd => break,
+                ini::Item::Blank => continue,
+                ini::Item::Comment(_) => continue,
                 ini::Item::Error(err) =>
                 {
                     eprintln!("Ini format error: {}", err);
-                    return Err(RepoConfigErrors::InvalidConfigError);
+                    return Err(RepoConfigErrors::InvalidConfig);
                 }
                 ini::Item::Section(section) => match validate_alias(section)
                 {
@@ -276,20 +312,18 @@ impl RepoConfig
                     _ =>
                     {}
                 },
-                _ =>
-                {}
             }
         }
 
         if repoconfig.alias.is_none()
         {
             eprintln!("Repository has no alias defined!");
-            return Err(RepoConfigErrors::MissingAliasError);
+            return Err(RepoConfigErrors::MissingAlias);
         }
         if repoconfig.baseurl.is_none()
         {
             eprintln!("No URI found!");
-            return Err(RepoConfigErrors::MissingUriError);
+            return Err(RepoConfigErrors::MissingUri);
         }
         Ok(repoconfig)
     }
@@ -309,7 +343,7 @@ fn validate_alias(alias: &str) -> Result<&str, RepoConfigErrors>
 {
     match alias
     {
-        "" => Err(RepoConfigErrors::MissingAliasError),
+        "" => Err(RepoConfigErrors::MissingAlias),
         _ => Ok(alias),
     }
 }
@@ -335,7 +369,7 @@ pub fn validate_uri(uristring: Option<&str>) -> Result<&str, RepoConfigErrors>
     {
         Some(s) => match s
         {
-            "" => Err(RepoConfigErrors::MissingUriError),
+            "" => Err(RepoConfigErrors::MissingUri),
             _ =>
             {
                 let uri_pattern =
@@ -347,7 +381,7 @@ pub fn validate_uri(uristring: Option<&str>) -> Result<&str, RepoConfigErrors>
                 }
             }
         },
-        None => Err(RepoConfigErrors::MissingUriError),
+        None => Err(RepoConfigErrors::MissingUri),
     }
 }
 
@@ -359,14 +393,14 @@ pub fn validate_file_metadata(file_path: &PathBuf) -> Result<&PathBuf, RepoConfi
         Err(err) =>
         {
             eprintln!("Error reading file: {}", err);
-            return Err(RepoConfigErrors::InvalidConfigError);
+            return Err(RepoConfigErrors::FileNotFound);
         }
     };
 
     if file_md.len() == 0
     {
         eprintln!("File contains no content");
-        return Err(RepoConfigErrors::InvalidConfigError);
+        return Err(RepoConfigErrors::EmptyConfig);
     }
     Ok(file_path)
 }
@@ -408,31 +442,28 @@ mod tests
         Ok(())
     }
 
-    // Test if it will panic with an invalid URI string gained from a config file.
     #[test]
-    #[should_panic(expected = "Invalid URI string")]
     fn invalid_baseurl()
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/invalid_baseurl.repo", manifest_dir);
-        RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
+
     #[test]
-    #[should_panic(expected = "Invalid URI string")]
     fn invalid_gpgkey_uri()
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/invalid_gpgkey_uri.repo", manifest_dir);
-        RepoConfig::load_config_file(&file_path).expect("Invalid URI string");
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
 
     #[test]
-    #[should_panic(expected = "No baseurl")]
     fn errors_without_baseurl()
     {
         let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
         let file_path = format!("{}/samples/no_baseurl.repo", manifest_dir);
-        RepoConfig::load_config_file(&file_path).expect("No baseurl");
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
 
     #[test]
@@ -449,8 +480,30 @@ mod tests
     #[test]
     fn works_with_only_section_and_baseurl_from_str() -> Result<(), RepoConfigErrors>
     {
-        let document = "\n[section]\nbaseurl=https://example.com\n";
+        let document = r#"[section]
+baseurl=https://example.com
+"#;
         let config = RepoConfig::from(&document)?;
+        println!("{:#?}", config);
+        assert_eq!(Some("section".to_string()), config.alias);
+        assert_eq!(Some("https://example.com".to_string()), config.baseurl);
+        Ok(())
+    }
+
+    #[test]
+    fn works_with_too_many_whitespaces_for_valid_config() -> Result<(), RepoConfigErrors>
+    {
+        let document = r#"
+
+
+
+
+
+[section]
+baseurl=https://example.com
+"#;
+        let config = RepoConfig::from(&document)?;
+        println!("{:#?}", config);
         assert_eq!(Some("section".to_string()), config.alias);
         assert_eq!(Some("https://example.com".to_string()), config.baseurl);
         Ok(())
@@ -464,7 +517,31 @@ mod tests
         assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
         if let Err(err) = RepoConfig::load_config_file(&file_path)
         {
-            assert_eq!(RepoConfigErrors::InvalidConfigError, err)
+            assert_eq!(RepoConfigErrors::FileNotFound, err)
         }
+    }
+
+    #[test]
+    fn invalid_if_no_section()
+    {
+        let document = "baseurl=https://example.com";
+        let config = RepoConfig::from(&document);
+        assert_eq!(true, config.is_err());
+    }
+
+    #[test]
+    fn invalid_if_empty_str()
+    {
+        let document = "";
+        let config = RepoConfig::from(&document);
+        assert_eq!(true, config.is_err());
+    }
+
+    #[test]
+    fn invalid_if_empty_config()
+    {
+        let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+        let file_path = format!("{}/samples/empty_config.repo", manifest_dir);
+        assert_eq!(true, RepoConfig::load_config_file(&file_path).is_err());
     }
 }

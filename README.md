@@ -14,9 +14,6 @@
 
 A package manager for openSUSE written in Rust.
 
-<a href="https://codeberg.org/uncomfyhalomacro/rypper" target="_blank"><img alt="Join Us Now on Codeberg" src="./assets/join-us-now-on-blue-on-white.png" height="60" /></a>
-<a href="https://codeberg.org" target="_blank"><img alt="Support and Promote Codeberg" src="./assets/support-and-promote-blue-on-white.png" height="60" /></a>
-
 It aims to:
 
 * improve the user experience of managing and installing packages on opensuse.
@@ -36,3 +33,6 @@ For contributing, check out the [developer guide](https://uncomfyhalomacro.codeb
 [codeberg-page]: https://uncomfyhalomacro.codeberg.page/rypper
 [docsrs]: https://docs.rs/rypper/latest/rypper
 [crates]: https://crates.io/crates/rypper
+
+<a href="https://codeberg.org/uncomfyhalomacro/rypper" target="_blank"><img alt="Join Us Now on Codeberg" src="./assets/join-us-now-on-blue-on-white.png" height="60" /></a>
+<a href="https://codeberg.org" target="_blank"><img alt="Support and Promote Codeberg" src="./assets/support-and-promote-blue-on-white.png" height="60" /></a>

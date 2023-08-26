@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js latte">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Architecture - Rypper Documentation</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="./theme/catppuccin.css">
+        <link rel="stylesheet" href="./theme/catppuccin-highlight.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "mocha" : "latte";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('latte')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">README</a></li><li class="chapter-item expanded affix "><a href="INTRODUCTION.html">Introduction to Rypper</a></li><li class="chapter-item expanded "><a href="INSTALLATION.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="CONFIGURATION.html"><strong aria-hidden="true">2.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="DOS_AND_DONTS.html"><strong aria-hidden="true">3.</strong> DOs and DONTs</a></li><li class="chapter-item expanded affix "><li class="part-title">For Developers</li><li class="chapter-item expanded "><a href="FAQ.html"><strong aria-hidden="true">4.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="ARCHITECTURE.html" class="active"><strong aria-hidden="true">5.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="DEVGUIDE.html"><strong aria-hidden="true">6.</strong> Developer Guide</a></li><li class="chapter-item expanded "><a href="LIBRARIES.html"><strong aria-hidden="true">7.</strong> Library Documentations</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="latte">Latte (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="frappe">Frappé</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="macchiato">Macchiato</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mocha">Mocha</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rypper Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://codeberg.org/uncomfyhalomacro/rypper" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://codeberg.org/uncomfyhalomacro/rypper/src/branch/main/docs" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
+<p>This document details different components of the code base. The intention is to provide
+a simple to explain but a high-level description of the projects goals and plans
+to each of these internal mechanisms.</p>
+<pre class="mermaid">flowchart TB
+    pkg[rypper] --&gt; op1{install?}
+    pkg[rypper] --&gt; op2{distro-upgrade?}
+    op1 --&gt;|Yes| MIRROR[(Mirror)]
+    op2 --&gt;|Yes| MIRROR
+    op1 --&gt;|No| E[END]
+    op2 --&gt;|No| E[END]
+    MIRROR --&gt; resp{RESPONSE}
+    resp --&gt;|OK| pkg
+    resp --&gt;|ERR| E
+    subgraph &quot;rypper libraries&quot;
+    a1[rypper util] --&gt; s1[rypper core]
+    b1[rypper tui] --&gt; s1
+    c1[rypper cli] --&gt; s1
+    d1[rypper reader] --&gt; s1
+    s1 --&gt; pkg
+    end
+</pre>
+<h2 id="cli-rypper-cli"><a class="header" href="#cli-rypper-cli">CLI (rypper-cli)</a></h2>
+<p>The <code>cli</code> is the frontend for running commands behind the scenes. The goal is to make it
+readable, and to make it as close as <code>zypper</code>'s cli commands.</p>
+<p>The following commands that are planned to be close to <code>zypper</code> are the following:</p>
+<ul>
+<li><code>install</code> (aliased as <code>in</code>)</li>
+<li><code>remove</code> (aliased as <code>rm</code>)</li>
+<li><code>update</code> (aliased as <code>update</code>)</li>
+<li><code>distro-upgrade</code> (aliased as <code>dup</code>)</li>
+<li><code>addrepo</code> (aliased as <code>ar</code>)</li>
+<li><code>removerepo</code> (aliased as <code>rr</code>)</li>
+<li><code>addlock</code> (aliased as <code>al</code>)</li>
+<li><code>removelock</code> (aliased as <code>rl</code>)</li>
+<li><code>modifyrepo</code> (aliased as <code>mr</code>)</li>
+</ul>
+<p>Other commands related to services seems to be not planned for now.</p>
+<h2 id="reader-rypper-reader"><a class="header" href="#reader-rypper-reader">Reader (rypper-reader)</a></h2>
+<p>The reader handles all the metadata that is fetched from upstream. These includes
+but not limited to the following:</p>
+<ul>
+<li>
+<p>Repo files. They are actually in <code>ini</code> format. Example:</p>
+<pre><code class="language-ini">[Publishing]
+name=Publishing Tools and Libraries (openSUSE_Tumbleweed)
+type=rpm-md
+baseurl=https://download.opensuse.org/repositories/Publishing/openSUSE_Tumbleweed/
+gpgcheck=1
+gpgkey=https://download.opensuse.org/repositories/Publishing/openSUSE_Tumbleweed/repodata/repomd.xml.key
+enabled=1
+</code></pre>
+</li>
+<li>
+<p>XML Metadata from repo files. They contain data of all available packages in that repo.</p>
+</li>
+<li>
+<p>Signature verification. They use GPG. I cannot avoid it though ☺️</p>
+</li>
+</ul>
+<h2 id="utilities-rypper-utils"><a class="header" href="#utilities-rypper-utils">Utilities (rypper-utils)</a></h2>
+<p>The utilities contains all helper/handler functions and stuff that are used around the project that <em>may not fit in some rypper libraries</em>.</p>
+<h2 id="core-rypper-core"><a class="header" href="#core-rypper-core">Core (rypper-core)</a></h2>
+<p>Core functionaliy that bundles all other rypper libraries. The logic are finally wrapped around in this library.</p>
+<!--TODO: Write about how to have a good relationship with mirrors, mirrorcache, file requests, and also how to prioritize
+mirrors based on weight -->
+<h1 id="mirrors-vs-mirrorcache"><a class="header" href="#mirrors-vs-mirrorcache">Mirrors vs Mirrorcache</a></h1>
+<!--TODO: Finish researching about this one -->
+<p>Mirrors are essential for every Linux distribution. In openSUSE, packages, software and libraries are built around from what is
+called as Open Build Service or for short, OBS (not the Open Broadcasting Software). Packages go there to be built and thoroughly
+checked through openQA. If a package successfully builds in OBS, it will then be pushed into a Mirror such as https://download.opensuse.org/. 
+Once there, it can be downloaded as an RPM package using a package manager e.g. <code>zypper</code>.</p>
+<p>Therefore, a mirror is basically a &quot;place&quot; where packages are hosted for a Linux distribution to be installed from or updated. But what is
+openSUSE's MirrorCache interface?</p>
+<p>As defined by their description of their <a href="https://github.com/openSUSE/MirrorCache">project on GitHub</a>, it's a redirector. There are many mirrors
+that host packages for various distributions around the world including openSUSE's. An example to check if you are in a mirror redirector
+is to run:</p>
+<p>This will give you a metalink version 4 file. It lists the mirrors that are available and closest to you based on region</p>
+<pre><code class="language-sh">curl -H &quot;Accept: application/metalink4+xml&quot;  https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml
+</code></pre>
+<pre><code class="language-sh">curl -L -H &quot;Accept: */*&quot;  https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml
+</code></pre>
+<pre><code class="language-sh">curl -H &quot;Accept: */*&quot;  https://mirrorcache-au.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml
+</code></pre>
+<!--NOTE: Mirrorcache is a misnomer. It's actually a "redirector" -->
+<h1 id="cdn-ris"><a class="header" href="#cdn-ris">CDN (RIS)</a></h1>
+<p>New architecture from openSUSE? or for openSUSE? </p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="FAQ.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="DEVGUIDE.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="FAQ.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="DEVGUIDE.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="mermaid.min.js"></script>
+        <script type="text/javascript" src="mermaid-init.js"></script>
+
+
+    </body>
+</html>

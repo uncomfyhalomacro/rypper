@@ -16,9 +16,6 @@ use std::{
     },
 };
 
-pub const ZYPP_CONFIG_PATH: &str = "/etc/zypp";
-pub const ZYPP_REPO_PATH: &str = "/etc/zypp/repos.d";
-
 #[derive(Clone, Debug, PartialEq, Hash)]
 /// # Config Validity
 /// Minimal valid config only requires a section AND URI.
